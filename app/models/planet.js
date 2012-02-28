@@ -1,6 +1,7 @@
 var resourceful = require('resourceful');
 
-// In a real app, this would need a persistence layer, like MongoDB or CouchDB. 
+// In a real app, this would need a persistence layer, 
+// that is a database like MongoDB or CouchDB. 
 // Right now, we just store the models in Memory for educational purposes.
 
 var Planet = resourceful.define('planet', function () {

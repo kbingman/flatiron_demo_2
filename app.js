@@ -3,6 +3,7 @@ var flatiron = require('flatiron'),
     path = require('path'),
     staticfiles = require('./lib/staticfiles.js').staticfiles,
     controllers = require('./app/controllers.js').controllers,
+    plates = require('plates'),
     app = flatiron.app;
 
 app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
