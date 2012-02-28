@@ -12,10 +12,10 @@ var Controllers = {
     Controllers.render_html(this, '<h1>Good Bye World!</h1>');
   },
   
-  mars: function(){
-    var mars = new Planet({ name: 'Mars' });
+  planets: function(name){
+    var planet = new Planet({ name: name });
 
-    Controllers.render_html(this, '<h1>Hello ' + mars.name + '</h1>');
+    Controllers.render_html(this, '<h1>Hello ' + planet.name + '</h1>');
   },
   
   wtf: function(){

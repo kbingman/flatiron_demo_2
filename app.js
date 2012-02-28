@@ -11,7 +11,7 @@ app.use(flatiron.plugins.http);
 app.routes = {
   '/': { 
     get: controllers.helloWorld,
-    '/mars': { get: controllers.mars },
+    '/planets/:name': { get: controllers.planets },
     '/hello': { get: controllers.helloWorld },
     '/bye': { get: controllers.goodByeWorld },
     '/*': { get: controllers.wtf }
