@@ -1,22 +1,18 @@
 {
-  "name": "flatiron-www",
-  "version": "0.0.0-4",
-  "subdomain": "flatiron",
+  "description": "A Flatiron HTTP application",
+  "version": "0.0.0",
+  "private": true,
   "dependencies": {
-    "http-server": "*",
-    "colors": "*",
-    "optimist": "*",
-    "wordwrap": "*"
+    "union": "0.1.7",
+    "flatiron": "0.1.13"
   },
-  "domains": [
-    "flatironjs.org",
-    "flatironjs.com",
-    "flatironjs.net",
-    "www.flatironjs.org",
-    "www.flatironjs.com",
-    "www.flatironjs.net"
-  ],
+  "devDependencies": {
+    "api-easy": "0.3.2",
+    "vows": "0.6.1"
+  },
   "scripts": {
-    "start": "node_modules/.bin/http-server"
-  }
+    "test": "vows --spec",
+    "start": "node app.js"
+  },
+  "name": "test"
 }
