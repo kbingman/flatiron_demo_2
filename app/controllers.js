@@ -1,4 +1,5 @@
 var fs = require('fs'),
+    path = require('path'),
     resourceful = require('resourceful'),
     plates = require('plates'),
     Planet = require('../app/models/planet.js').Planet;
@@ -26,9 +27,9 @@ var Controllers = {
   
   render_html: function(http, content, template){
     var template = template ? template : 'index';
-    var path = __dirname + '/templates/index.html';
+    var template_path = path.join(__dirname, 'templates', template + '.html');
     
-    fs.readFile(path , 'utf8', function(error, html){
+    fs.readFile(template_path , 'utf8', function(error, html){
       if(error){
         next(error);
       } else {

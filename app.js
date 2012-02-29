@@ -8,6 +8,7 @@ var flatiron = require('flatiron'),
 
 app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
 app.use(flatiron.plugins.http);
+app.use(require('./plugins/load'));
 
 app.routes = {
   '/': { 
