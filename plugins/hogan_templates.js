@@ -60,15 +60,13 @@ Partials.attach = function (options) {
   },
   
   this.render = function(template_name, data, callback){ 
-    console.log(new Date())   
     // var template_path = path.join(__dirname, '../templates', template_name + '.html');
     
     this.partials(function(err, partials){
       if(err){
         return callback(err);
       } else {
-        var partial = partials[template_name];
-        console.log(new Date())  
+        var partial = partials[template_name]; 
         if(callback) callback.call(this, partial.render(data, partials));
       }
     });
