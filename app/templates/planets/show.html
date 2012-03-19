@@ -1,0 +1,19 @@
+{{# system }}
+<h1><a class="show-system" href="/systems/{{ _id }}">{{ name }}</a></h1>
+{{/ system }}
+
+{{# planet }}
+<ul>
+  <li class="">{{ slug }}</li>
+  <li class="">{{ zone }}</li>
+  <li class="">{{ radius }}</li>
+  <li class="">{{ atmosphere }}</li>
+  <li class="">{{ klass }}</li>
+</ul>
+
+{{> systems/remove }}
+
+<p>
+  <a href="/planets">Planets</a>
+</p>
+{{/ planet }}

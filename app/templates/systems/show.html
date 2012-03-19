@@ -1,0 +1,37 @@
+<div id="system">
+  
+</div>
+
+<div id="system-info">
+{{# system }}
+  <h1><a class="show-system" href="/systems/{{ _id }}">{{ name }}</a></h1>
+
+  {{# stars }}
+  <p>
+    <strong class="">{{ klass }}</strong>
+    <span class="">Mass: {{ mass }}</span>
+    <span class="">Radius: {{ radius }}</span>
+  </p>
+  {{/ stars }}
+
+  <ul>
+  {{# planets }}
+    <li class="">
+      <a class="show-planet" href="/planets/{{ _id }}">
+        <strong>{{ zone }} - {{ klass }}</strong>
+        {{ radius }} {{ atmosphere }}
+      </a>
+    </li>
+  {{/ planets }}
+  </ul>
+
+  {{> systems/remove }}
+
+  <p>
+    <a href="/planets">Planets</a>
+  </p>{{/ system }}
+</div>
+
+
+
+

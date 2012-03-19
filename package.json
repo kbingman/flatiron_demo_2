@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "union": "0.1.7",
-    "flatiron": "0.1.13",
-    "resourceful":"0.1.8",
+    "union": "*",
+    "flatiron": "*",
+    "mongo":"*",
+    "resourceful-mongo":"*",
+    "resourceful":"*",
     "hogan":"1.0.5-dev",
-    "plates":"0.4.5"
+    "connect": "2.0.2" 
   },
   "devDependencies": {
     "api-easy": "0.3.2",
@@ -18,5 +20,5 @@
     "test": "vows --spec",
     "start": "node app.js"
   },
-  "name": "Flatiron Demo"
+  "name": "Stars"
 }

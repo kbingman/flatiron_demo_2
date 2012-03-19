@@ -1,0 +1,38 @@
+<h2>Signup</h2>
+
+<form action="/api/players" id="signup_form" class="" method="post">
+  <div class="field">
+    <label>Name</label>
+    <input type="text" value="{{ name }}" name="name" />
+  </div>
+  <div class="field">
+    <label>Email</label>
+    <input type="text" value="{{ email }}" name="email" />
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" value="{{ password }}" name="password" />
+  </div>
+  
+  <div class="actions">
+    <input type="submit" value="Save" />
+  </div>
+</form>
+
+<h2>Login</h2>
+
+<form action="/api/login" id="login_form" class="" method="post">
+  <div class="field">
+    <label>Email</label>
+    <input type="text" value="{{ email }}" name="email" />
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" value="{{ password }}" name="password" />
+  </div>
+  
+  <div class="actions">
+    <input type="submit" value="Login" />
+  </div>
+</form>
+

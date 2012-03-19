@@ -1,14 +1,14 @@
 var fs = require('fs');
     
-exports.name = 'Load a file';
+exports.name = 'Loader';
 
 exports.attach = function (options) {
-  this.load = function(path, next){
-    fs.readFile(path , 'utf8', function(err, fileString){
+  this.load = function(path, callback){
+    fs.readFile(path , 'utf8', function(err, contents){
       if(err){
-        next(err);
+        callback(err);
       } else {
-        next(null, fileString);
+        callback(null, contents);
       }
     });
   };

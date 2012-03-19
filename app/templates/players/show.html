@@ -1,0 +1,12 @@
+{{# player }}
+<script type="text/javascript">
+  Sector.current_player = new Sector.Player({ 
+    name: "{{ name }}", 
+    email: "{{ email }}", 
+    bank_account: "{{ bank_account }}",
+    _id: "{{ _id }}" 
+  })
+</script> 
+
+<h2>Player: {{ name }}</h2>
+{{/ player}}
