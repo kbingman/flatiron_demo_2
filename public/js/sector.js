@@ -15,8 +15,8 @@ Sector.render_planet = function(data){
 };
 
 Sector.render_system = function(data){
-  var width = $(document).width() - 16,
-      height = 235, 
+  var width = 720,
+      height = 306, 
       remove_template = new Hogan.Template(Templates['systems/remove']),
       show_template = new Hogan.Template(Templates['systems/show']),
       html = show_template.render(data, { remove: remove_template });

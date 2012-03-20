@@ -161,13 +161,14 @@ function SystemRenderer(domID, system, width, height){
   };
   
   self.set_styles = function(){
-    var top = system.y - self.y - height - 20;
-    var left = system.x - self.x - (width / 2);
-    var offset_x = (width + left) - document.width;
+    var top = system.y - Sector.starfield.y - height - 20,
+        left = system.x - Sector.starfield.x - (width / 2),
+        offset_x = (width + left) - $(document).width();
+
 
     if(offset_x > 0){ left = left - offset_x - 20; }
     if(left < 0){ left = 20; }
-    if(top < 0){ top = system.y - self.y + 20; }
+    if(top < 0){ top = system.y - Sector.starfield.y + 20; }
     
     $('#' + domID).css({
       'background': 'rgba(0,0,0,1)',

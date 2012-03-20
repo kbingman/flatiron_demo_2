@@ -34,7 +34,10 @@ var Api = {
     var self = this;
     players.authenticate(self, function(err, player){ 
       System.generate({}, function(err, system){
-        self.res.json(system.toJSON());
+        console.log(err)
+        if(system){
+          self.res.json(system.toJSON());
+        }
       });
     });
   }

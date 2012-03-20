@@ -1,15 +1,19 @@
- {{> systems/show }}
+<div id="sector"></div>
+<div id="system">
+  
+</div>
 
-{{> players/show }}
+<div id="info">
 
-<h1>Systems</h1>
-{{> systems/new }}
+  {{> players/show }}
 
-<ul id="systems">
-{{# systems }}
-  {{> systems/system }}
-{{/ systems }}
-</ul>
+  <h1>Systems</h1>
+  {{> systems/new }}
+  {{> systems/show }}
+</div>
+
+
+
 
 
 

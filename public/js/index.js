@@ -7,7 +7,14 @@ $(function() {
   
   if(Sector.current_player){
     Sector.System.fetch(function(){
-      // console.log(System.systems)
+      console.log(Sector.systems);
+      Sector.starfield = new Starfield('sector', { 
+        w: $(document).width(),
+        h: $(document).height(),
+        x: 0, 
+        y: 0 
+      });
+      
     });
   
     console.log(Sector.current_player.name)    

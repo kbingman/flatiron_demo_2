@@ -1,5 +1,7 @@
 body {
   font-family: 'helvetica neue';
+  background-color: #070707;
+  color: white;
 }
 
 form input[type="text"], form input[type="password"] {
@@ -15,12 +17,34 @@ form .actions {
   margin: 0 0 0 74px;
 }
 
-#system {
-  position: fixed;
-  left: 8px;
-  top: 8px;
+#sector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 300px;
+  bottom: 0;
+  border-right: 1px solid #555;
+  overflow: hidden;
 }
 
-#system-info {
-  margin-top: 250px;
+#info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
 }
+
+#system {
+  background: black; 
+  position: absolute; 
+  width: 720px;
+  z-index: 10;
+}  
+
+/*position: absolute;
+top: 0;
+left: 0;
+z-index: 10;*/
+
+
