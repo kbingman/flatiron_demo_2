@@ -91,7 +91,7 @@ function SystemRenderer(domID, system, width, height){
     
     dot.id = planet._id;
     dot.click(function(){
-      Sector.render_planet(planet);
+      Sector.render_planet({ planet: planet, system: system });
     });
     
     $(dot.node).css({

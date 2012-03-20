@@ -86,17 +86,17 @@ $(function() {
   //   });
   // });
   
-  $('a.show-system').live('click', function(e){
-    e.preventDefault();
-    
-    var id = $(this).attr('href').split('/').last(),
-        system = Sector.systems.find(function(s){ return s._id == id }),
-        data = { system: system };
-        
-    // history.pushState({ path: $(this).attr('href') }, "Planet", "/systems/" + system._id);
-
-    Sector.render_system(data);
-  });
+  // $('a.show-system').live('click', function(e){
+  //   e.preventDefault();
+  //   
+  //   var id = $(this).attr('href').split('/').last(),
+  //       system = Sector.systems.find(function(s){ return s._id == id }),
+  //       data = { system: system };
+  //       
+  //   // history.pushState({ path: $(this).attr('href') }, "Planet", "/systems/" + system._id);
+  // 
+  //   Sector.render_system(data);
+  // });
   
   $('a.show-planet').live('click', function(e){
     e.preventDefault();
