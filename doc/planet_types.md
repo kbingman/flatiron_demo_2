@@ -12,7 +12,10 @@
 * Mercury
 * Selenian (Moon-like) 
 
+## To be exploited...?
+
 * Pure Water
 * Pure Carbon
-* Silicate (earth)
 * Pure Iron
+
+* Silicate (earth)

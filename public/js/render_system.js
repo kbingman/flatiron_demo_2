@@ -171,7 +171,7 @@ function SystemRenderer(domID, system, width, height){
     if(top < 0){ top = system.y - Sector.starfield.y + 20; }
     
     $('#' + domID).css({
-      'background': 'rgba(0,0,0,1)',
+      'background': 'rgba(0,0,0,0.7)',
       'width': width + 'px',
       'height': height + 'px',
       'border': '1px solid #bbe8fd',

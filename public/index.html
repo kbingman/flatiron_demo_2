@@ -1,269 +1,132 @@
-<!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Canvas Fractals</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <style type="text/css" media="all" xml:space="preserve"> 
+    /*<![CDATA[*/
+        body {
+            background: #000;
+        }
+        canvas {
+            background: #fff;
+        }
+    /*]]>*/
+    </style>
+    <script type="application/javascript">
+    /*<![CDATA[*/
 
-  <title></title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+//
+// prepare the canvas for subsequent drawing
+//
+// canvas: the html5 canvas element
+// ctx: the canvas 2d drawing context
+// config: object with configuration properties
+//
+var init = function(canvas, ctx, config) {
+    if (config.width) {
+        canvas.width = config.width;
+    }
+    if (config.height) {
+        canvas.height = config.height;
+    }
+    if (config.background) {
+        ctx.fillStyle = config.background;
+    }
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.translate(canvas.width * config.tx, canvas.height * config.ty);
+};
 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+//
+// draw one instance of the basic shape
+//
+// ctx: the canvas 2d drawing context
+// depth: recursion level
+// config: object with configuration properties
+//
+var draw = function(ctx, depth, config) {
+    ctx.fillStyle = config.color;
+    ctx.fillRect(-config.w/2, 0, config.w, config.h);
+};
 
-  <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="css/index.css">
-  <!-- end CSS-->
+//
+// setup the canvas context transformation for the next level of recursion
+//
+// ctx: the canvas 2d drawing context
+// depth: recursion level
+// config: object with configuration properties
+//
+var transform = function(ctx, depth, config) {
+    ctx.translate(-config.w/2, 0);
+    ctx.scale(config.ratio, config.ratio);
+    ctx.translate(-config.w/2, -config.h);
+};
 
+//
+// direct the overall recursion of the drawing
+//
+// ctx: the canvas 2d drawing context
+// depth: recursion level
+// depthMax: recursion level limit
+// config: object with configuration properties
+//
+var recurse = function(ctx, depth, depthMax, config) {
+    if (depth >= depthMax) {
+        return;
+    }
+    
+    draw(ctx, depth, config);
+
+    ctx.save();
+    transform(ctx, depth, config);
+    recurse(ctx, depth + 1, depthMax, config);
+    ctx.restore();
+};
+
+//
+// create recursive image on the canvas
+//
+// config: object with configuration properties
+//
+var create = function(config) {
+    var canvas = document.getElementsByTagName("canvas")[0];
+    var ctx = canvas.getContext("2d");
+
+    init(canvas, ctx, config);
+
+    recurse(ctx, 0, config.depth, config);
+};
+
+//
+// execute after page load
+//
+window.onload = function(ev) {
+    var config = {
+        background: "rgb(59, 185, 255)",
+        width: 600,     // canvas width
+        height: 500,    // canvas height
+        tx: 0.5,        // x origin translation as a fraction of width
+        ty: 0.8,        // y origin translation as a fraction of width
+
+        depth: 10,      // recursion limit
+        ratio: 1/Math.sqrt(2),     // scale for each step
+
+        w: 100,         // properties of basis image
+        h: 100,
+        color: "green",
+    };
+
+    create(config);
+};
+
+    /*]]>*/
+    </script>
 </head>
-
 <body>
-  <div id="brand-container">
-    <div id="logo"></div>
-    <div id="nav">
-      <nav>
-        <a href="#routing">routing</a>
-        <a href="#middleware">middleware</a>
-        <a href="#templating">templating</a>
-        <a href="#odm">odm</a>
-        <a href="#composition">composition</a>
-      </nav>
-    </div>
-    <div id="slogan1">an unobtrusive framework initiative for node.js</div>
-  </div>
-  
-  <div id="shelter-container">
-    <div></div>
-  </div>
-
-  <div id="shelter-lid">
-  </div>
-
-  <div id="fork-me-on-github">
-    <a href="https://github.com/flatiron">
-      <img src="https://a248.e.akamai.net/assets.github.com/img/bec6c51521dcc8148146135149fe06a9cc737577/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67"
-           alt="Fork me on GitHub">
-    </a>
-  </div>
-
-  <div id="nodejitsu">
-  </div>
-
-  <div id="container">
-    <header>
-
-    </header>
-    <div id="content-container" role="main">
-    </div>
-    <div id="scrolling-content">
-
-      <h1>an unobtrusive framework initiative for node.js</h1>
-      No one agrees on frameworks. It's difficult to get consensus on how much or how little a framework should do. Flatiron's approach is to package simple to use yet full featured components and let developers subtract or add what they want.
-      <p>
-      Flatiron promotes code organization and sustainability by clearly separating development concerns. Each component works elegantly with or without its counterparts. Many of the components work the same in the browser as they do on the server. This is the motivation behind flatiron. At it's core flatiron is two things:</p>
-      <p>1) an initiative to build a collection of decoupled tools with the same standard of quality and performance that you would expect from anything built by <a href="http://nodejitsu.com">nodejitsu.</a>
-      <br/>
-      <p>2) a full-stack web application development framework which packages these tools together to make <a href="http://blog.nodejitsu.com/scaling-isomorphic-javascript-code">isomorphic</a> and <a href="http://nodejs.org/docs/v0.6.0/api/streams.html">stream-based</a> application development easier.</p>
-      
-      <h1>inside the framework</h1>
-      Packaged inside the framework are the basic building blocks for a modern web application.
-
-      <div id="diagram">
-        <a href="#routing"><div class="component" id="diagram_routing"><span>routing</span></div></a>
-        <a href="#middleware"><div class="component" id="diagram_middleware"><span>middleware</span></div></a>
-        <a href="#templating"><div class="component" id="diagram_templating"><span>templating</span></div></a>
-        <a href="#odm"><div class="component" id="diagram_odm"><span>odm</span></div></a>
-        <a href="#composition"><div class="component" id="diagram_composition"><span>composition</span></div></a>
-        <div id="puffy"></div>
-      </div>
-      
-      <div class="end-section"></div>
-      
-      <header>
-        <h1>routing</h1><a href="http://github.com/flatiron/director" class="github">GITHUB</a><br/>
-         make directing traffic simple by centralizing your routing into a table. director works on the client and the server.
-      </header>
-      
-      <h1 id="routing">director ★ full featured routing</h1>
-      Director is a URL router. It works on the browser and the server (Node.js). It's not a plugin for another framework. It's not dependent on anything. It's a modern router that was designed from the ground up for javascript. It's unique.
-
-      <p>On the client, it uses part of the URL to figure out what functions should execute, which usually has some effect on the way the page is presented. On the server, it helps figure out what to do when someone goes to a URL.
-
-      <p>A route table is as simple as an object literal. A potentially nested set of key/value pairs. The keys in the object literal represent each potential part of the URL. The values in the object literal contain references to the functions that should be associated with them.
-      <pre><code>
-
-        var routes = {
-          '/authors': {
-            on: showAuthor,
-            '/books': { on: [showCover, showDescription] },
-            '/bios': { on: [showPicture, showBiography] }
-          }
-        };
-
-        var router = Router(routes);
-
-      </code></pre>
-
-      <div class="end-section"></div>
-
-      <header>
-        <h1>middleware</h1><a href="http://github.com/flatiron/union" class="github">GITHUB</a><br/>
-        A hybrid buffered / streaming middleware kernel backwards compatible with connect. 
-      </header>
-
-      <h1 id="middleware">union ★ minimalist middleware</h1>
-      Union is a middleware framework for node.js. It's minimalist, but extensible. It provides an easy way to interact with requests before and after they are processed. Union's request handling is compatible with `connect`, meaning that all existing `connect-middlewares` should work out of the box with union.
-
-      <pre><code>
-
-        var server = union.createServer({
-          before: [
-            function (req, res) {
-              if(req.url.indexOf('foo') !== -1) {
-                return false;
-              }
-            }
-          ]
-        });
-
-        router.get(/foo/, function () {
-          this.res.writeHead(200, { 'Content-Type': 'text/plain' });
-          this.res.end('never sent\n');
-        });
-
-      </code></pre>
-
-      <div class="end-section"></div>
-
-      <header>
-        <h1>templating</h1><a href="http://github.com/flatiron/plates" class="github">GITHUB</a><br/>
-        A simple, unobtrusive templating solution that keeps the trash/placeholders out of your html. 
-      </header>
-
-      <h1 id="templating">plates ★ unobtrusive data binding for markup</h1>
-      Plates (short for templates) binds data to markup. There's NO special syntax. It works in the browser and in node.js! The right way to do this is with a DOM. Unfortunately, at the moment, the DOM is slow. On the server, it is quite slow. So Plates implements a very loose HTML parser.
-
-      <pre><code>
-
-        var plate = new Plate;
-        
-        var html = '&lt;div id="test"&gt;Old Value&lt;/div&gt;';
-        var data = { "test": "New Value" };
-
-        var output = plate(html).bind(data);
-
-      </code></pre>
-
-      <div class="end-section"></div>
-
-      <header>
-        <h1>odm</h1><a href="http://github.com/flatiron/resourceful" class="github">GITHUB</a><br/>
-        A storage agnostic resource-oriented ODM for building prototypical models with validation and sanitization.
-      </header>
-      
-      <h1 id="odm">resourceful ★ object document mapping</h1>
-      <p>How often have you found yourself writing Model code in your application? Pretty often? Good! Unlike other "Object-Document Mappers" `resourceful` tries to only focus on two things:
-      <br/>
-      <p>
-      1. A simple API for defining custom Model prototypes with validation. **No special sugar is required to instantiate prototypes defined by resourceful.**
-      <br/><br/>
-      2. Define an extensibility model for databases to provide CRUD functionality to Models along with custom query, filtering or updating specific to that specific implementation (Mongo, CouchDB, Redis, etc).
-      <br/>
-
-      <pre><code>
-
-        var Creature = resourceful.define('creature');
-
-        Creature.property('diet'); // Defaults to String
-        Creature.property('vertebrate', Boolean);
-        Creature.property('belly', Array);
-
-        Creature.prototype.feed = function (food) {
-          this.belly.push(food);
-        };
-        
-        var wolf = new Creature({
-          diet:      'carnivor',
-          vertebrate: true
-        });
-
-        wolf.feed('squirrel');
-        console.dir(wolf.belly);
-
-      </code></pre>
-
-      <div class="end-section"></div>
-
-      <header>
-        <h1>composition</h1><a href="http://github.com/flatiron/broadway" class="github">GITHUB</a><br/>
-        Lightweight application extensibility and composition with a twist of feature reflection.
-      </header>
-      
-      <h1 id="composition">broadway ★ simple glue for components</h1>
-      Thanks to Javascript you never have to worry about types again (mostly), but that doesn't mean that we can't learn something from design patterns more prevalent is static type languages. Namely: inversion of control and dependency injection.
-
-      <p>Broadway exposes a simple "plugin" API which allows the application developer to extend the top-level application object easily. This model translates well between the browser and the server because developers can write different plugins to suite the needs of the different environments. Broadway includes several plugins by default which can be overridden if you don't agree with the particular module or library choice we've made.
-
-      <pre><code>
-
-        var plugin = {
-          "name": "example-plugin", // Plugin's name
-
-          "attach": function attach(options) {
-            // Called with plugin options once plugin attached to application
-            // `this` - is a reference to application
-          },
-
-          "detach": function detach() {
-            // Called when plugin detached from application
-            // (Only if plugin with same name was attached)
-            // `this` - is a reference to application
-          }
-
-          "init": function init(callback) {
-            // Called on application initialization
-            // App#init(callback) called once every plugin will call `callback`
-            // `this` - is a reference to application
-          }
-        };
-
-      </code></pre>
-
-      <div class="end-section"></div>
-
-    </div>
-    <footer>
-
-    </footer>
-  </div> <!--! end of #container -->
-
-
-  <script type="text/javascript" src="js/jquery.1.7.min.js"></script>
-  <script type="text/javascript" src="js/index.js"></script>
-
-  <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-24971485-5']);
-    _gaq.push(['_setDomainName', 'none']);
-    _gaq.push(['_setAllowLinker', true]);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-  </script>
-
-
-  <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
-  
+    <div id="container"> 
+        <canvas id="canvas" width="512" height="512">
+        </canvas>
+    </div> 
 </body>
 </html>

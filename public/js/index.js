@@ -7,20 +7,25 @@ $(function() {
   
   if(Sector.current_player){
     Sector.System.fetch(function(){
-      console.log(Sector.systems);
-      Sector.starfield = new Starfield('sector', { 
-        w: $(document).width(),
-        h: $(document).height(),
-        x: 0, 
-        y: 0 
-      });
-      
-    });
-  
-    console.log(Sector.current_player.name)    
+      Sector.render();
+    });  
   };
-
   
+  $(window).bind('resize', function(){
+    clearTimeout(Sector.resize);
+    Sector.resize = setTimeout(function(){
+      Sector.render();
+    }, 100);
+  });
+  
+  $('#scale').bind('change', function(){
+    var scale = this.value;
+    Sector.starfield.resize(scale);
+  });
+
+  // $('#sector').bind('mousedown', function(){
+  //   console.log('down')
+  // })
   
   // $('form.delete').live('submit', function(e){
   //   e.preventDefault();
@@ -86,17 +91,17 @@ $(function() {
   //   });
   // });
   
-  // $('a.show-system').live('click', function(e){
-  //   e.preventDefault();
-  //   
-  //   var id = $(this).attr('href').split('/').last(),
-  //       system = Sector.systems.find(function(s){ return s._id == id }),
-  //       data = { system: system };
-  //       
-  //   // history.pushState({ path: $(this).attr('href') }, "Planet", "/systems/" + system._id);
-  // 
-  //   Sector.render_system(data);
-  // });
+  $('a.show-system').live('click', function(e){
+    e.preventDefault();
+    
+    var id = $(this).attr('href').split('/').last(),
+        system = Sector.systems.find(function(s){ return s._id == id }),
+        data = { system: system };
+        
+    // history.pushState({ path: $(this).attr('href') }, "Planet", "/systems/" + system._id);
+  
+    Sector.render_system(data);
+  });
   
   $('a.show-planet').live('click', function(e){
     e.preventDefault();

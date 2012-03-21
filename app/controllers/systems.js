@@ -1,8 +1,8 @@
 var flatiron = require('flatiron'),
     app = flatiron.app,
     players = require('./players.js'),
-    Systems = exports,
-    System = require('../../app/models/system.js').System;
+    System = require('../../app/models/system.js').System,
+    Systems = exports;
     
 Systems.index = function(name){
   var self = this;
@@ -25,11 +25,12 @@ Systems.index = function(name){
   
 Systems.show = function(id){
   var self = this;
+  
   players.authenticate(self, function(err, player){
     if(err) return callback(err); 
     System.all(function(err, systems){
       if(err) return callback(err);
-      if(planets.length){
+      if(systems.length){
         var system = systems.find(function(s){ return s._id == id }),
             data = {
               system: system,

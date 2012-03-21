@@ -1,7 +1,13 @@
+html {
+  height: 100%;
+}
 body {
   font-family: 'helvetica neue';
   background-color: #070707;
   color: white;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 form input[type="text"], form input[type="password"] {
@@ -33,14 +39,18 @@ form .actions {
   right: 0;
   bottom: 0;
   width: 280px;
+  overflow: auto;
 }
 
 #system {
-  background: black; 
   position: absolute; 
   width: 720px;
   z-index: 10;
 }  
+
+a { 
+  color: white;
+}
 
 /*position: absolute;
 top: 0;

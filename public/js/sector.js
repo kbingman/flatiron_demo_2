@@ -3,6 +3,16 @@ var Sector = {};
         
 Sector.systems = [];
 
+Sector.render = function(){
+  Sector.starfield = new Starfield('sector', { 
+    w: $(document).width(),
+    h: $(document).height(),
+    x: 0, 
+    y: 0 
+  });
+  Sector.grid = new Grid('paper', $(document).width(), $(document).height());
+}
+
 Sector.render_planet = function(data){
   var show_template = new Hogan.Template(Templates['planets/show']),
       html = show_template.render(data);

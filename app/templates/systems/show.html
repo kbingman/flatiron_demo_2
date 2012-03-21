@@ -12,10 +12,9 @@
 
   <ul>
   {{# planets }}
-    <li class="">
+    <li class="planet">
       <a class="show-planet" href="/planets/{{ _id }}">
-        <strong>{{ zone }} - {{ klass }}</strong>
-        {{ radius }} {{ atmosphere }}
+        <strong>{{ klass }}</strong>
       </a>
     </li>
   {{/ planets }}
@@ -23,9 +22,7 @@
 
   {{> systems/remove }}
 
-  <p>
-    <a href="/planets">Planets</a>
-  </p>{{/ system }}
+{{/ system }}
 </div>
 
 

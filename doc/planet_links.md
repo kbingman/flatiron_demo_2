@@ -9,3 +9,6 @@ http://www.space.com/6240-habitable-planets-types-proposed.html
 
 
 Earth-like, Mars-Like, Europa-like and water-worlds.
+
+http://naldzgraphics.net/tutorials/30-photoshop-tutorials-for-creating-space-and-planets/
+http://www.smashingapps.com/2010/10/12/40-robust-tutorials-of-“how-to-create-planet-and-space-art”-on-photoshop.html

@@ -12,8 +12,9 @@
 </ul>
 
 {{> systems/remove }}
-
-<p>
-  <a href="/planets">Planets</a>
-</p>
 {{/ planet }}
+{{# system }}
+<p>
+  <a class="show-system" href="/systems/{{ _id }}">System</a>
+</p>
+{{/ system }}

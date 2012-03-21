@@ -16,23 +16,24 @@ function Starfield(domID, options){
     self.x = options['x'] ? options['x'] : 0;
     self.y = options['y'] ? options['y'] : 0;
     self.baseSize = 3.5;
-    self.plotStars(Sector.systems); 
+    self.plot_stars(Sector.systems); 
   };
   
   self.resize = function(scale){
     self.scale = scale;
     self.paper.clear();
-    self.plotStars(window.systems);
+    Sector.grid = new Grid('paper', $(document).width(), $(document).height(), scale);
+    self.plot_stars(Sector.systems);
   };
   
-  self.plotStars = function(systems){
+  self.plot_stars = function(systems){
     for (i in systems) {
       var system = systems[i];
-      self.drawStar(system); 
+      self.draw_star(system); 
     }
   };
   
-  self.drawStar = function(system){
+  self.draw_star = function(system){
     var star = system.stars[0];
     var radius = star.radius * self.baseSize * self.scale;    
     var x = (system.x - self.x) * self.scale;
@@ -47,16 +48,17 @@ function Starfield(domID, options){
     
     dot.id = system._id;   
     // console.log(dot.id)
-
+    
     dot.glow({
       'color': star.color,
-      'width': 5,
+      'width': 10 * self.scale,
       'opacity': 0.3
     });
     
     // The clicker is transparent, but on top. All events are hooked to that
     var clicker = self.paper.circle(x, y, radius * 3);
     clicker.toFront();
+    clicker.id = 'clicker_' + system.id;
     clicker.attr({
       'fill': 'transparent',
       'stroke-width': '0',   
@@ -65,112 +67,41 @@ function Starfield(domID, options){
     $(clicker.node).css({
       'cursor':'pointer'  
     });
-    // clicker.hover(function(){
-    //   self.show_system(system);
-    // });
     
     clicker.click(function(){
+      if(Sector.current_system) self.deactivate(Sector.current_system._id);
+      
       self.show_system(system);
       if(clicker.active){
-        clicker.attr({
-          'fill': 'transparent',
-          'stroke-width': '0'
-        });
-        clicker.active = false; 
+        self.deactivate(system._id);
       } else {
-        clicker.attr({
-          'stroke-width': '1px',
-          'fill': 'rgba(255,255,255,0.2)'
-          // 'stroke': 'rgba(255,255,255,0.5)'
-        });
-        clicker.active = true; 
+        self.activate(system._id);
       }
     });
   };
   
-  self.pulsate = function(system){  
-    var star = system.stars[0];    
-    var radius = star.radius * self.baseSize * self.scale;    
-    var x = (system.x - self.x) * self.scale;
-    var y = (system.y - self.y) * self.scale;
-    
-    var background = self.paper.circle(x, y, radius * 2);
-    background.attr({
-      'stroke-width': 0,  
-      'opacity': 0.27,
-      'fill': '#fff'
+  self.activate = function(id){
+    var clicker = self.paper.getById('clicker_' + id);
+    clicker.attr({
+      'stroke-width': '1px',
+      'fill': 'rgba(255,255,255,0.2)'
+      // 'stroke': 'rgba(255,255,255,0.5)'
     });
-    background.toBack();
-    background.glow({
-      'color': '#fff',
-      'width': 20,
-      'opacity': 0.2
-    });
-    background.animate({
-      'opacity': 0.1
-    },1000);
-    window.pulse = setInterval(function(){
-      background.animate({
-        'opacity': 0.0
-      },1000);
-      setTimeout(function(){
-        background.animate({
-          'opacity': 0.27
-        },1000);
-      }, 1000);
-    }, 2000);
-
-    // $(background.node).hide();
-    // $(background.node).show();
+    clicker.active = true; 
   };
   
-  self.sphere_of_knowledge = function(system){
-    var x = (system.x - self.x) * self.scale;
-    var y = (system.y - self.y) * self.scale;
-    var circle = self.paper.circle(x, y, 300);
-    var circle2 = self.paper.circle(x, y, 500);
-    circle.attr({
-      'stroke-width': '1px',
-      'stroke': 'rgba(255,255,255,0.3)',
-      'fill': 'rgba(255,255,255,0.015)'
-    }); 
-    circle2.translate(0.5, 0.5);
-    circle.toBack();
-    circle2.attr({
-      'stroke-width': '1px',
-      'stroke': 'rgba(255,255,255,0.3)',
-      'fill': 'rgba(255,255,255,0.005)'
-    });       
-    circle2.translate(0.5, 0.5); 
-    circle2.toBack();
-  }
+  
+  self.deactivate = function(id){
+    var clicker = self.paper.getById('clicker_' + id);
+    clicker.attr({
+      'stroke-width': '0',
+      'fill': 'transparent'
+    });  
+    clicker.active = false; 
+  };
   
   self.show_system = function(system){
-    // move this is a function?
-    
-    // var paper_node = $('#paper');
-    // var system_node = $('#system');
-    // var system = Sector.systems.find(function(s){ return s._id == system._id});
-
-    Sector.system_portrait = Sector.render_system({ system: system })
-    
-    // paper_node.unbind('click');
-    // system_node.show();
-    
-    
-    
-    // for(i in systems){
-    //   var s = systems[i];
-    //   if (system._id == s._id){
-    //     window.system_portrait = new SystemPortrait('system', system, 720, 306);
-    //     setTimeout(function(){
-    //       paper_node.bind('click', function(){
-    //         system_node.hide();
-    //       })
-    //     }, 100)
-    //     break;
-    //   }
-    // }
+    Sector.system_portrait = Sector.render_system({ system: system });
   }    
   
   self.distance = function(system_1, system_2){
