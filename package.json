@@ -8,8 +8,10 @@
     "mongo":"*",
     "resourceful-mongo":"*",
     "resourceful":"*",
-    "hogan":"1.0.5-dev",
-    "connect": "2.0.2" 
+    "hogan.js":"1.0.5-dev",
+    "connect": "2.0.2",
+    "asnyc": "*",
+    "sugar": "*"
   },
   "devDependencies": {
     "api-easy": "0.3.2",

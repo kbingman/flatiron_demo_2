@@ -1,4 +1,4 @@
-var resourceful = require('resourceful'),
+var resourceful = require('resourceful-mongo'),
     async = require('async'),
     sugar = require('sugar'),
     Star = require('./star').Star,
