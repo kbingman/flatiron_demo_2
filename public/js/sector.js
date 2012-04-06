@@ -3,13 +3,9 @@ var Sector = {};
         
 Sector.systems = [];
 
-Sector.render = function(){
-  Sector.starfield = new Starfield('sector', { 
-    w: $(document).width(),
-    h: $(document).height(),
-    x: 0, 
-    y: 0 
-  });
+Sector.render = function(options){
+  console.log(options)
+  Sector.starfield = new Starfield('sector', options);
   Sector.grid = new Grid('paper', $(document).width(), $(document).height());
 }
 

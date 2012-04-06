@@ -11,6 +11,8 @@ function Starfield(domID, options){
     self.height = options['h'] ? options['h'] : 480;
     self.paper = Raphael(domID, self.width, self.height);
     
+    console.log(options['x']);
+    
     self.gridColor = 'rgba(255,255,255,0.05)';
     self.scale = 1;
     self.x = options['x'] ? options['x'] : 0;
@@ -101,7 +103,19 @@ function Starfield(domID, options){
   };
   
   self.show_system = function(system){
+    var sector = $('#sector');
+    var system_node = $('#system');
+    
+    sector.unbind('click');
+    
     Sector.system_portrait = Sector.render_system({ system: system });
+    system_node.fadeIn('fast', function(){
+      setTimeout(function(){
+        sector.bind('click', function(){
+          system_node.fadeOut('fast');
+        })
+      }, 100);
+    }); 
   }    
   
   self.distance = function(system_1, system_2){

@@ -1,0 +1,26 @@
+{ $and: [{'x':{ $gt: 1000 }},  {'x':{ $lt: 1024 }}] }
+
+{ $and: [{'x':{ $gt: 1000 }}, {'y':{ $gt: 1000 }}] }
+
+
+// All stars in a given radius...
+{ $and: [{'x':{ $gte: 105 }},  {'x':{ $lte: 285 }}, {'y':{ $gte: 426 }},  {'y':{ $lte: 606 }}, {'clustered': false}] }
+
+
+x: 195
+y: 516
+
+// All white stars
+{'stars.klass':'White'}
+
+// All stars starting with white
+{'stars.klass':/^white/i}
+
+// All planets that are terran
+{'planets.klass':/terran/i}
+
+// All stars with terran planets and yellow stars
+{ $and: [{'planets.klass':/terran/i}, {'stars.klass':/yellow/i}] }
+{ $and: [{'planets.klass':/terran/i}, { $or: [{'stars.klass':/yellow/i}, {'stars.klass':/orange/i}] }] }
+
+{'clustered': 'NO'}

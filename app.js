@@ -1,4 +1,5 @@
 var flatiron = require('flatiron'),
+    sugar = require('sugar'),
     session = require('connect').session,
     cookieParser = require('connect').cookieParser,  
     fs = require('fs'),
@@ -9,14 +10,22 @@ var flatiron = require('flatiron'),
     players = require('./app/controllers/players.js'),
     players_api = require('./app/controllers/players_api.js').api,
     systems_api = require('./app/controllers/systems_api.js').api,
+    Player = require('./app/models/player.js').Player,
+    io = require('socket.io'),
+    // TODO move to config file
+    epoch = new Date('Mar 22 2012'),
     app = flatiron.app;
+    
+  // this is a comment
 
 app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
 app.use(flatiron.plugins.http);
 app.use(require('./plugins/hogan_templates'));
 
 app.http.before.push(cookieParser('todo list secret'));
-app.http.before.push(session());
+app.http.before.push(session({ cookie: { maxAge: 60000 }}));
+
+
 
 // homegrown helpers for using hogan templates and a 
 // rails style layout / template / partial structure
@@ -33,6 +42,9 @@ app.routes = {
       '/:id': { 
         get: systems.show
       }
+    },
+    '/admin':{
+      get: systems.admin
     },
     '/api':{
       // get: players.test,
@@ -64,3 +76,30 @@ app.router.get(/.+/, staticfiles);
 app.start(8080, function () {
   console.log('flatiron with http running on 8080');
 });
+
+// Test
+var io = require('socket.io').listen(app.server);
+io.sockets.on('connection', function(socket) {
+  // One day here equals a year of a game time, for now
+  socket.emit('timestamp', { time: epoch.secondsAgo() });
+  
+  socket.on('set player', function (data) {
+    Player.get(data.player_id, function(error, player){
+      console.log('Player: ' + player);
+      socket.set('player', player, function () { socket.emit('ready'); });
+    });
+  });
+
+  socket.on('get player', function () {
+    socket.get('player', function (err, player) {
+      socket.emit('player', { player: player.toJSON() });
+      console.log(player);
+    });
+  });
+  
+  // socket.emit('player', { player: player.toJSON() });
+});
+
+
+
+

@@ -9,13 +9,14 @@ Systems.index = function(name){
   
   players.authenticate(self, function(err, player){  
     if(err) return callback(err); 
+        
+    
     System.all(function(err, systems){ 
       if(err) return callback(err); 
       var data = {
-            systems: systems.map(function(p){ return p.toJSON(); }),
+            systems: systems.map(function(s){ return s.toJSON(); }),
             player: player.toJSON()
           };
-      
       app.render('systems/index', data, function(template){
         app.render_layout(self, template);
       }); 
@@ -45,4 +46,26 @@ Systems.show = function(id){
     });
   });
 }
+
+Systems.admin = function(name){
+  var self = this;
+  
+  players.authenticate(self, function(err, player){  
+    if(err) return callback(err); 
+        
+    
+    System.all(function(err, systems){ 
+      if(err) return callback(err); 
+      var data = {
+            systems: systems.map(function(p){ return p.toJSON(); }),
+            player: player.toJSON()
+          };
+      app.render('admin/index', data, function(template){
+        app.render_layout(self, template);
+      }); 
+    });
+  });
+};
+
+
 

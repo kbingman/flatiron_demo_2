@@ -7,7 +7,21 @@ $(function() {
   
   if(Sector.current_player){
     Sector.System.fetch(function(){
-      Sector.render();
+      var id = Sector.current_player.homeworld_id,
+          homeworld = Sector.systems.find(function(s){ return s._id == id }),
+          width = $(document).width() - 300,
+          height = $(document).height(),
+          x_offset = homeworld ? homeworld.x - (width / 2) : 0,
+          y_offset = homeworld ? homeworld.y - (height / 2): 0;
+      
+      Sector.render({
+        x: x_offset,
+        y: y_offset,
+        w: width,
+        h: height
+      });
+      Sector.starfield.activate(id);
+      Sector.homeworld = homeworld;
     });  
   };
   
@@ -63,13 +77,14 @@ $(function() {
       data: form.serializeArray(),
       type: 'POST',
       success: function(response){
-        var system_template = new Hogan.Template(Templates['systems/system']),
-            html = system_template.render(response),
-            system = new Sector.System(response);
-        
-        Sector.systems.push(system);
-        form.find('input[type="text"]').val('');
-        $(target).append(html);
+        console.log(response)
+        // var system_template = new Hogan.Template(Templates['systems/system']),
+        //     html = system_template.render(response),
+        //     system = new Sector.System(response);
+        // 
+        // Sector.systems.push(system);
+        // form.find('input[type="text"]').val('');
+        // $(target).append(html);
       }
     });
   });
@@ -116,6 +131,43 @@ $(function() {
     
     Sector.render_planet(data);
   });
+  
+  Sector.socket = io.connect('http://localhost');
+  var timestamp = 0;
+
+  Sector.socket.emit('set player', { 
+    player_id: Sector.current_player._id
+  });
+  
+  Sector.socket.on('timestamp', function (data) {
+    timestamp = data.time;
+    set_timestamp(timestamp);
+  
+    // $('h1').html(data.time);
+  });
+  
+  Sector.socket.on('player', function (data) {
+    console.log(data)
+  });
+  
+  
+  var set_timestamp = function(time){
+    var time = time / (3600 * 24),
+        year = time.floor(),
+        day = ((time - time.floor()) * 365),
+        hour = (day - day.floor()) * 24,
+        min = (hour - hour.floor()) * 60,
+        string = 'Time: ' + year + ':' + day.floor().pad(3) + ':' + hour.ceil().pad(2);
+    
+    $('h4#timestamp').html(string);
+  }
+  
+  setInterval(function(){
+    timestamp = timestamp + 6;
+    set_timestamp(timestamp);
+    // console.log(timestamp);
+  }, 6000)
+  
   
   
 });

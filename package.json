@@ -5,17 +5,19 @@
   "dependencies": {
     "union": "*",
     "flatiron": "*",
-    "mongo":"*",
-    "resourceful-mongo":"*",
-    "resourceful":"*",
+    "mongodb":"*",
+    "resourceful-mongo":"0.0.3",
+    "resourceful":"0.1.10",
     "hogan.js":"1.0.5-dev",
     "connect": "2.0.2",
-    "asnyc": "*",
-    "sugar": "*"
+    "async": "*",
+    "sugar": "*",
+    "socket.io": "*"
   },
   "devDependencies": {
     "api-easy": "0.3.2",
-    "vows": "0.6.1",
+    "mocha": "*",
+    "should": "0.6.0",
     "zombie":"0.12.15"
   },
   "scripts": {

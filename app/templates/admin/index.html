@@ -1,0 +1,15 @@
+<div id="sector"></div>
+<div id="system">
+  
+</div>
+
+<div id="info">
+  {{> players/show }}
+  {{> systems/new }}
+  <ul>
+  {{# systems }}
+    {{> systems/system }}
+  {{/ systems }}
+  </ul>
+</div>
+

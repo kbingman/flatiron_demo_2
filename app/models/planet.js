@@ -1,44 +1,21 @@
 var resourceful = require('resourceful-mongo'),
     sugar = require('sugar');
 
-// In a real app, this would need a persistence layer, 
-// that is a database like MongoDB or CouchDB. 
-// Right now, we just store the models in Memory for educational purposes.
-
 var Planet = resourceful.define('planet', function () {
 
   var self = this;
-  
-  // Overwrites the save method
-  // allowing something to happen before it..
-  // self.prototype.save = function(callback){
-  //   this.slug = this.name.toLowerCase().replace(/ /g, '-');
-  // 
-  //   Planet.save(this, callback)
-  // }
-  
+    
   self.prototype.zone = function(){
     var zone = orbital_zones.find(function(z){ 
       return z.name == self.zone;
     });
     return zone;
   }
-  
-  // self.prototype.toJSON = function(){
-  //   return Planet.toJSON(this)
-  // }
-  
-  
-  //
-  // Specify use of the mongodb engine
-  //
+
+  // Use Memory, as planets are save in the parent System document
   self.use('memory');
-  // self.use('mongodb', {
-  //   database: 'planetary', //required - databasename which contains collections
-  //   collection: 'planets', // required - the collection to use for this resource
-  //   safe : true // optional - run the driver in safe mode to ensure that the update succeeded. Defaults to false
-  // });
   
+  // Properties and types
   self.property('name', String);
   self.property('slug', String);
   self.property('klass');
@@ -46,56 +23,57 @@ var Planet = resourceful.define('planet', function () {
   self.property('atmosphere');
   self.property('radius', Number);
   self.property('position', Number);
-  self.property('population', Number);
-  self.property('system_id', String);
+  // self.property('population', Number);
+  // self.property('system_id', String);
   
-  // Builds a planet with random attributes, but that follow the basic distribution
-  self.generate = function (system, attr, callback) {
+  // Errors
+  self.on('error', function() {
+    console.log(arguments)
+  });
+  
+  // Before Create 
+  self.before('create', function(instance, callback) {
+    var frequency = 0,
+        zone = self.orbital_zones.find(function(z){ 
+          return z.name == instance.zone;
+        }),
+        probability = Math.random();
         
-    var self = this;
-    var frequency = 0;
-    var zone = self.orbital_zones.find(function(z){ 
-      return z.name == attr.zone;
-    });
-    
-    var probability = Math.random();
-   
-    for (p in zone.planets) {
-      
-      var klass = zone.planets[p];
+    zone.planets.each(function(klass){
       var start = frequency; 
-      var frequency = frequency + klass.frequency;
-      
-      // console.log('frequency: ' + frequency)
-      // console.log('start: ' + start)
-      // console.log('probability: ' + probability)
-      
+      frequency = frequency + parseFloat(klass.frequency);
+            
       if(probability > start && probability < frequency) {
-        var planet = new Planet(attr);
-  
-        // planet.position   = index;
-        // planet.name      =  planet.name + '-' + index;
-        planet.klass      = klass.name;
-        planet.slug       = planet.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
-        planet.radius     = klass.radius * ((Math.random() * .8) + .6);
-        planet.atmosphere = klass.atmosphere;
-        // planet.system_id  = system._id.toString();
+        instance.klass      = klass.name;
+        instance.radius     = klass.radius * ((Math.random() * .8) + .6);
+        instance.atmosphere = klass.atmosphere;
         
-        planet.save(function(err, planet){
-          if(err){
-            console.log(err)
-            return
-          }
-          system.planets.push(planet);
-          if(callback) callback.call(null, planet);
-        });
-        
-        break;
+        return false;
       }
-    }
-    
-  };
+    });
+    callback.call(this);
+  });
   
+  // Before Save
+  self.before('save', function(instance, callback) {
+    if(instance.name){
+      instance.slug = instance.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
+    }
+    callback.call(this);
+  });
+  
+  self.types = { 
+    'cerian': { radius: 0.5, atmosphere: 'none', moons: 0 },
+    'planetoid belt': { radius: 0.5, atmosphere: 'none', moons: 10 },
+    'desert': { radius: 1, atmosphere: 'Oxygen / Nitrogen', moons: 1 },
+    'terran': { radius: 1, atmosphere: 'Oxygen / Nitrogen', moons: 1 },
+    'tundra': { radius: 1, atmosphere: 'Oxygen / Nitrogen', moons: 1 },
+    'arid':  { radius: 1, atmosphere: 'Oxygen / Nitrogen', moons: 1 },
+    'arean': { radius: 0.7, atmosphere: 'Carbon Dioxide', moons: 1 },
+    'gas giant': { radius: 4, atmosphere: 'Hydrogen', moons: 10, rings: 1 },
+    'ice giant': { radius: 4, atmosphere: 'Hydrogen / Methane', moons: 10, rings: 1 },
+    'kuiper body': { radius: 0.1, atmosphere: '-' }
+  };
   
   // Basic orbital slots, types, distribution and attributes
   self.orbital_zones = [ 
@@ -108,11 +86,11 @@ var Planet = resourceful.define('planet', function () {
       name: 'hot',
       planets: [ 
         { name: 'boiling gas giant', frequency: .10, atmosphere: 'Hydrogen', radius: 10 },
-        { name: 'cthonian', frequency: .30, atmosphere: '-', radius: 0.5 },
-        { name: 'cerian', frequency: .42, atmosphere: '-', radius: 0.5 }
+        { name: 'planetoid belt', frequency: .38, atmosphere: '-', radius: 0.5 },
+        { name: 'cerian', frequency: .52, atmosphere: '-', radius: 0.5 }
       ]
     },{
-      name: 'habital',
+      name: 'habitable',
       planets: [ 
         { name: 'gas giant', frequency: .005, atmosphere: 'Hydrogen', radius: 4  },
         { name: 'ammonia', frequency: .015, atmosphere: 'Ammonia', radius: 1  },
@@ -124,7 +102,7 @@ var Planet = resourceful.define('planet', function () {
         { name: 'arid', frequency: .30, atmosphere: 'Oxygen / Nitrogen', radius: 1 }
       ]
     },{
-      name: 'almosthabital',
+      name: 'almosthabitable',
       planets: [ 
         { name: 'gas giant', frequency: .005, atmosphere: 'Hydrogen', radius: 4  },
         { name: 'planetoid belt', frequency: .02, atmosphere: '-', radius: 0.5 },
