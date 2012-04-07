@@ -1,5 +1,5 @@
 TESTS = $(shell find test -name "*_spec.js")
-REPORTER = spec
+REPORTER = dot
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \

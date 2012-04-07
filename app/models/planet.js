@@ -16,14 +16,14 @@ var Planet = resourceful.define('planet', function () {
   self.use('memory');
   
   // Properties and types
-  // self.property('name', String);
-  // self.property('slug', String);
+  self.property('name', String);
+  self.property('slug', String);
   self.property('klass');
   self.property('zone');
   self.property('atmosphere');
   self.property('radius', Number);
   self.property('position', Number);
-  // self.property('population', Number);
+  self.property('population', Number);
   // self.property('system_id', String);
   
   // Errors

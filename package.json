@@ -22,7 +22,7 @@
     "zombie":"0.12.15"
   },
   "scripts": {
-    "test": "vows --spec",
+    "test": "make test",
     "start": "node app.js"
   },
   "name": "Stars"
