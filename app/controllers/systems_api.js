@@ -36,56 +36,32 @@ var Api = {
   create: function(){
     var self = this;
     var count = 0;
-    var systems_array = []
-    var quantity = this.req.body.number || 1;
+    var systems = []
+    var quantity = this.req ? this.req.body.number : 1;
     
     players.authenticate(self, function(err, player){ 
-      // var generate = function(callback){
-      //   System.generate({}, function(err, system){
-      //     console.log(err);
-      //     if(system){
-      //       callback
-      //     }
-      //   });
-      // }
       
+      // TODO extract
       async.whilst(
         function () { return count < quantity; },
         function (callback) {
           count++;
-          System.generate({}, function(err, system){
-            if(err) callback(err)
-            if(system){
-              setTimeout(function(){
-
-                system.save(function(err, system){
-                  console.log(count)
-                  systems_array.push(system)
-                  callback(null, system)
-                })
-                
-              }, 10)
-            }
+          System.create({}, function(error, system){ 
+            if(error) callback(error);
+            setTimeout(function(){
+              systems.push(system)
+              callback(null, system);
+            },1);
           });
         },
-        function (err) {
+        function (error) {
           console.log('finished');
-          console.log('Systems: ' + systems_array.length);
-          // System.insert(systems_array, function(error, systems){
-          //   if(error){
-          //     self.res.json({ error: error });
-          //   }
-          //   self.res.json(systems.map(function(p){ return p.toJSON(); }));
-          // });
-          
-          
-          // self.res.json({ systems: [] });
-          System.all(function(error, systems){
-            if(error){
-              self.res.json({ error: error });
-            }
-            self.res.json(systems.map(function(p){ return p.toJSON(); }));
-          });
+          console.log('Systems: ' + systems.length);
+          if(error){
+            self.res.json({ error: err });
+          } else {
+            self.res.json(systems.map(function(s){ return s.toJSON(); }));
+          }
         }
       );
       

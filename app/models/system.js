@@ -50,7 +50,6 @@ var System = resourceful.define('system', function () {
     // Stars
     // about 50% need to be multiple stars
     self.create_stars(instance, function(){
-      // Planets go here
       self.create_planets(instance, callback);
     });
   });
@@ -60,16 +59,19 @@ var System = resourceful.define('system', function () {
   //   callback();
   // });
   
+  // Create Stars
+  // ----------------------------------------------------------------
   self.create_stars = function(instance, callback){
     Star.create({}, function(err, star){
-      instance.stars.push(star);
+      instance.stars.push(star.toJSON());
       instance.mass = instance.mass + star.mass;
       
       callback();
     });
   };
   
-  // Planets
+  // Create Planets
+  // ----------------------------------------------------------------
   self.create_planets = function(instance, callback){
     var zones = [],
         index = 0,
@@ -79,7 +81,7 @@ var System = resourceful.define('system', function () {
         }).orbits,
         create_planet = function(zone, done){
           Planet.create({ zone: zone, position: index }, function(err, p){ 
-            instance.planets.push(p);
+            instance.planets.push(p.toJSON());
             done();
           });
           index++; 

@@ -18,6 +18,7 @@
     "api-easy": "0.3.2",
     "mocha": "*",
     "should": "0.6.0",
+    "sinon":"*",
     "zombie":"0.12.15"
   },
   "scripts": {

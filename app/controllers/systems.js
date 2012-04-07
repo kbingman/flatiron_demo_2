@@ -28,9 +28,9 @@ Systems.show = function(id){
   var self = this;
   
   players.authenticate(self, function(err, player){
-    if(err) return callback(err); 
+    // if(err) return callback(err); 
     System.all(function(err, systems){
-      if(err) return callback(err);
+      // if(err) return callback(err);
       if(systems.length){
         var system = systems.find(function(s){ return s._id == id }),
             data = {

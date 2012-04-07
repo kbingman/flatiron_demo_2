@@ -4,13 +4,13 @@ var assert = require("assert");
 // Load the page from localhost
 // var zombie = new Zombie();
 
-Zombie.visit("http://localhost:8080/", function (e, browser) {
+Zombie.visit("http://localhost:8080/", function (err, browser) {
 
   // Make sure the browser request is successful (200)
   assert.ok(browser.success);
 
   // Make sure we have a title.
-  assert.equal(browser.text("title"), "Welcome To Brains Depot");
+  assert.equal(browser.text("title"), "It's Full of Stars!");
 
   // Make sure we have an element with the ID content.
   // You can use any css3 selector to get the element
@@ -25,8 +25,7 @@ Zombie.visit("http://localhost:8080/", function (e, browser) {
 });
 
 // Make sure mars works
-Zombie.visit("http://localhost:8080/planets/hoth", function (e, browser) {
-
+Zombie.visit("http://localhost:8080/planets/hoth", function (err, browser) {
   // Make sure the browser request is successful (200)
   assert.ok(browser.success);
 
@@ -42,7 +41,7 @@ Zombie.visit("http://localhost:8080/planets/hoth", function (e, browser) {
 });
 
 // Make sure saturn works
-Zombie.visit("http://localhost:8080/planets/saturn", function (e, browser) {
+Zombie.visit("http://localhost:8080/planets/saturn", function (err, browser) {
 
   // Make sure the browser request is successful (200)
   assert.ok(browser.success);
