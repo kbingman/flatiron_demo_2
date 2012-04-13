@@ -34,10 +34,10 @@ var Api = {
   },
   
   create: function(){
-    var self = this;
-    var count = 0;
-    var systems = []
-    var quantity = this.req ? this.req.body.number : 1;
+    var self = this,
+        count = 0,
+        systems = [],
+        quantity = this.req ? this.req.body.number : 1;
     
     players.authenticate(self, function(err, player){ 
       

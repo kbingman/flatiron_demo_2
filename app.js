@@ -23,13 +23,7 @@ app.use(flatiron.plugins.http);
 app.use(require('./plugins/hogan_templates'));
 
 app.http.before.push(cookieParser('todo list secret'));
-app.http.before.push(session({ cookie: { maxAge: 60000 }}));
-
-
-
-// homegrown helpers for using hogan templates and a 
-// rails style layout / template / partial structure
-
+app.http.before.push(session());
 
 app.routes = {
   '/': { 
@@ -43,6 +37,9 @@ app.routes = {
         get: systems.show
       }
     },
+    // '/models/:name': { 
+    //   get: systems.model
+    // },
     '/admin':{
       get: systems.admin
     },
@@ -77,7 +74,7 @@ app.start(8080, function () {
   console.log('flatiron with http running on 8080');
 });
 
-// Test
+// This will be the real heart of the game
 var io = require('socket.io').listen(app.server);
 io.sockets.on('connection', function(socket) {
   // One day here equals a year of a game time, for now
@@ -96,8 +93,6 @@ io.sockets.on('connection', function(socket) {
       console.log(player);
     });
   });
-  
-  // socket.emit('player', { player: player.toJSON() });
 });
 
 

@@ -52,11 +52,10 @@ function SystemRenderer(domID, system, width, height){
     }
     
     // calculates the total width
-    for(p in system.planets){
-      var planet = system.planets[p];
+    system.planets.each(function(planet){
       var radius = 0.05 * self.base_size * Math.sqrt(planet.radius);
       x_base = x_base + radius + spacing;
-    }
+    });
 
     // console.log(width / x_base)
     
@@ -80,6 +79,7 @@ function SystemRenderer(domID, system, width, height){
   self.draw_planet = function(planet, radius, x_base, index, width){
 
     var dot = self.paper.circle(x_base, height / 2, radius);
+    
     var label_height = index % 2 ? 42 : -42;
     
     dot.attr({
@@ -133,6 +133,43 @@ function SystemRenderer(domID, system, width, height){
       'width': 20,
       'opacity': 0.3
     });
+    
+    (5).times(function(i){
+      var percent = 1 - ((i + 1) * .2)
+      var dot2 = self.paper.ellipse(x_pos, height / 2, radius, radius * percent);
+      
+      dot2.attr({
+        'stroke-width': '1',   
+        'stroke': 'rgba(131, 153, 174, 0.7)', 
+        'fill': 'transparent'
+      });
+    });
+    
+    (5).times(function(i){
+      var percent = 1 - ((i + 1) * .2)
+      var dot2 = self.paper.ellipse(x_pos, height / 2, radius * percent, radius);
+      
+      dot2.attr({
+        'stroke-width': '1',   
+        'stroke': 'rgba(131, 153, 174, 0.7)', 
+        'fill': 'transparent'
+      });
+    });
+  
+    var dot2 = self.paper.ellipse(x_pos, height / 2, 0.5, radius);
+    dot2.attr({
+      'stroke-width': '1',   
+      'stroke': 'rgba(131, 153, 174, 0.7)', 
+      'fill': 'transparent'
+    });
+    
+    var dot3 = self.paper.ellipse(x_pos, height / 2, radius, 0.5);  
+    dot3.attr({
+      'stroke-width': '1',   
+      'stroke': 'rgba(131, 153, 174, 0.7)', 
+      'fill': 'transparent'
+    });
+    
     
     // label = self.paper.text(width - 8, 14, system.stars[0].code + ' ' + system.name + ' ' + planet.klass + '\n Atmosphere: ' + planet.atmosphere );
     // label.attr({

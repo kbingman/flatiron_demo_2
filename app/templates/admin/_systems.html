@@ -1,0 +1,14 @@
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class='name'>System Name</th>
+      <th class='star'>Primary Star</th>
+      <th class='planet'>Planets</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{# systems }}
+    {{> admin/_system }}
+  {{/ systems }}
+  </tbody>
+</table>

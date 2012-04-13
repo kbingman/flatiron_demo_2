@@ -1,15 +1,18 @@
-<div id="sector"></div>
-<div id="system">
-  
+<header class="jumbotron subhead">
+  <h1>It's Full of Stars!</h1>
+  <p>This is an example of an admin interface...</p>
+</header>
+<div class="row">
+  <div class="span9">
+    {{> admin/_new }}
+  </div>
+  <div class="span3">
+  {{# player}}
+    <h2>{{ email }}</h2>
+  {{/ player}}
+  </div>
 </div>
 
-<div id="info">
-  {{> players/show }}
-  {{> systems/new }}
-  <ul>
-  {{# systems }}
-    {{> systems/system }}
-  {{/ systems }}
-  </ul>
-</div>
-
+<section id="systems">
+  {{> admin/_systems }}
+</section>

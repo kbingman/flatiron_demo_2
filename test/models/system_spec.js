@@ -22,5 +22,27 @@ describe('System', function(){
       });
     });
     
+    it('should create planets for the system', function(done){
+      System.create({}, function(err, system){
+        system.planets.length.should.be.above(0);
+        done();
+      });
+    });
+    
+    it('should return a collection of planets', function(done){
+      System.create({}, function(err, system){
+        system.planets_collection().length.should.be.above(0);
+        done();
+      });
+    });
+    
+    it('should return a json string', function(done){
+      System.create({}, function(err, system){
+        system.toJSON().planets.length.should.be.above(0);
+        done();
+      });
+    });
+    
+    
   });
 });

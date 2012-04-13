@@ -10,8 +10,8 @@ var System = resourceful.define('system', function () {
   var start_x = 0; // options['start_x'] ? options['start_x'] : 
   var start_y = 0; // options['start_y'] ? options['start_y'] : 
   var start_z = 0; // options['start_z'] ? options['start_z'] :
-  var width  = 1024; // options['width'] ? options['width'] : 
-  var height = 1024; // options['height'] ? options['height']
+  var width  = 2048; // options['width'] ? options['width'] : 
+  var height = 2048; // options['height'] ? options['height']
   var depth  = 1024; // options['depth'] ? options['depth'] : 
 
   //
@@ -34,6 +34,8 @@ var System = resourceful.define('system', function () {
   self.property('stars', Array); 
   self.property('nearby_stars', Array); 
   self.property('clustered', Boolean);
+  
+  self.timestamps();
   
   // Hooks
   self.before('create', function(instance, callback) {
@@ -102,6 +104,14 @@ var System = resourceful.define('system', function () {
       if(err){ console.log(err); }
       callback();
     });
+  };
+  
+  self.prototype.planets_collection = function(){
+    var system = this;
+    var planets = system.planets.map(function(p){ 
+      return new Planet(p);
+    });
+    return planets;
   };
   
   // Instance Methods

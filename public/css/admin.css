@@ -1,0 +1,72 @@
+.jumbotron h1 {
+  margin: 54px 0 9px 0;
+  font-size: 81px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.jumbotron p {
+  margin-bottom: 18px;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+table {}
+
+.table td.name, .table th.name{ width: 100px; } 
+.table td.star, .table th.star { width: 100px; } 
+
+/*--------------- Modal Windows ---------------*/
+.modal-backdrop {
+  background-color: white;
+}
+
+
+/*--------------- Planet Badges ---------------*/
+.badge-cerian {
+  background-color: #b94a48;
+}
+.badge-cerian:hover {
+  background-color: #953b39;
+}
+.badge-planetoids {
+  background-color: #f89406;
+}
+.badge-planetoids:hover {
+  background-color: #c67605;
+}
+.badge-gas-giant {
+  background-color: #468847;
+}
+.badge-gas-giant:hover {
+  background-color: #356635;
+}
+.badge-terran {
+  background-color: #3a87ad;
+}
+.badge-terran:hover {
+  background-color: #2d6987;
+}
+.badge-arean {
+  background-color: #333333;
+}
+.badge-arean:hover {
+  background-color: #1a1a1a;
+}
+
+/*--------------- Planet Styles ---------------*/
+.planetary_disc {
+  display: block;
+  float: left;
+  background: #3a87ad;
+  border-radius: 50px;
+  height: 100px;
+  width: 100px;
+  margin: 0 24px 0 0;
+  text-align: center;
+  line-height: 100px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}

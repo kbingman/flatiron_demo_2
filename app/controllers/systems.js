@@ -1,5 +1,6 @@
 var flatiron = require('flatiron'),
     app = flatiron.app,
+    fs = require('fs'),
     players = require('./players.js'),
     System = require('../../app/models/system.js').System,
     Systems = exports;
@@ -61,10 +62,32 @@ Systems.admin = function(name){
             player: player.toJSON()
           };
       app.render('admin/index', data, function(template){
-        app.render_layout(self, template);
+        app.render_layout(self, template, 'admin');
       }); 
     });
   });
+};
+
+Systems.model = function(name){
+  var self = this;
+  var response = this.res;
+  
+  console.log(name)
+  
+  fs.readFile(__dirname + '/../models/' + name, 'utf8', function(error, file) {
+    if (error) {
+      console.log(error)
+      response.writeHead(404);
+      return response.end('File not found');
+    }
+    
+    response.writeHead(200, { 
+      'Content-Type': 'text/javascript', 
+      'Cache-Control': 'max-age=300, public' 
+    });
+    response.end(file);
+  });
+  
 };
 
 

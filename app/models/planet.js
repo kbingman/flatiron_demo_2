@@ -12,7 +12,7 @@ var Planet = resourceful.define('planet', function () {
     return zone;
   }
 
-  // Use Memory, as planets are save in the parent System document
+  // Use Memory, as planets are saved in the parent System document
   self.use('memory');
   
   // Properties and types
@@ -24,6 +24,7 @@ var Planet = resourceful.define('planet', function () {
   self.property('radius', Number);
   self.property('position', Number);
   self.property('population', Number);
+  self.property('resources', Object);
   // self.property('system_id', String);
   
   // Errors
@@ -34,7 +35,7 @@ var Planet = resourceful.define('planet', function () {
   // Before Create 
   self.before('create', function(instance, callback) {
     var frequency = 0,
-        zone = self.orbital_zones.find(function(z){ 
+        zone = self.zones.find(function(z){ 
           return z.name == instance.zone;
         }),
         probability = Math.random();
@@ -56,12 +57,37 @@ var Planet = resourceful.define('planet', function () {
   });
   
   // Before Save
-  // self.before('save', function(instance, callback) {
-  //   if(instance.name){
-  //     instance.slug = instance.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
-  //   }
-  //   callback();
-  // });
+  self.before('save', function(instance, callback) {
+    if(instance.name){
+      instance.slug = instance.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
+    }
+    callback();
+  });
+  
+  self.prototype.klass_slug = function(){
+    var planet = this;
+    return planet.klass.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
+  };
+  
+  self.prototype.rounded_radius = function(){
+    var planet = this;
+    return Math.round(planet.radius * 100) / 100;
+  };
+  
+  
+  
+  // Instance Methods
+  self.prototype.toJSON = function(){
+    var planet = this;
+    return {
+      '_id': planet._id,
+      'name': planet.name,
+      'klass': planet.klass,
+      'radius': planet.rounded_radius(),
+      'klass_slug': planet.klass_slug()
+    }
+  };
+  
   
   self.types = { 
     'cerian': { radius: 0.5, atmosphere: 'none', moons: 0 },
@@ -78,7 +104,7 @@ var Planet = resourceful.define('planet', function () {
   };
   
   // Basic orbital slots, types, distribution and attributes
-  self.orbital_zones = [ 
+  self.zones = [ 
     { name: 'veryhot',
       planets: [  
         { name: 'cerian', frequency: .50 }, 
@@ -95,7 +121,7 @@ var Planet = resourceful.define('planet', function () {
       name: 'habitable',
       planets: [ 
         { name: 'gas giant', frequency: .005 },
-        { name: 'arean', frequency: .02  },
+        { name: 'arean', frequency: .035  },
         { name: 'desert', frequency: .09 },
         { name: 'terran', frequency: .15 },
         { name: 'tundra', frequency: .20 },
@@ -105,28 +131,28 @@ var Planet = resourceful.define('planet', function () {
     },{
       name: 'almosthabitable',
       planets: [ 
-        { name: 'gas giant', frequency: .005 },
-        { name: 'planetoid belt', frequency: .02 },
-        { name: 'arean', frequency: .06 },
-        { name: 'tundra', frequency: .07 }
+        { name: 'gas giant', frequency: .10 },
+        { name: 'tundra', frequency: .20 },
+        { name: 'planetoids', frequency: .30 },
+        { name: 'arean', frequency: .40 }
       ],
     },{
       name: 'cold',
       planets: [ 
-        { name: 'planetoids', frequency: .04 },
-        { name: 'gas giant', frequency: .57 }
+        { name: 'planetoids', frequency: .20 },
+        { name: 'gas giant', frequency: .80 }
       ]
     },{
       name: 'verycold',
       planets: [ 
-        { name: 'planetoids', frequency: .05 },
-        { name: 'ice giant', frequency: .42 }
+        { name: 'planetoids', frequency: .10 },
+        { name: 'ice giant', frequency: .90 }
       ]
     },{
       name: 'kuiper',
       planets: [ 
-        { name: 'cerian', frequency: '.10' },
-        { name: 'dirty iceball', frequency: '.90' }
+        { name: 'cerian', frequency: .10 },
+        { name: 'kuiper body', frequency: .90 }
       ] 
     }
   ]
