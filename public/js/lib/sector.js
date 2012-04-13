@@ -32,17 +32,22 @@ var Sector = {
   // 'method' is the jQuery method used to render, i.e. 'append', 'prepend', 'html', etc.
   // If this option is left blank, 'append' will be used.
   render_template: function(options){
-    var template = new Hogan.Template(Templates[options.template]),
-        partials = {},
+    var html = Sector.render_html(options),
         method = options.method || 'append';
+
+    $(options.target)[method](html);
+  },
+  
+  render_html: function(options){
+    var template = new Hogan.Template(Templates[options.template]),
+        partials = {};
         
     if(options.partials){
       options.partials.each(function(partial){ 
         partials[partial] = new Hogan.Template(Templates[partial]);
       });
     }
-
-    $(options.target)[method](template.render(options.data, partials));
+    return template.render(options.data, partials);
   }
   
 };

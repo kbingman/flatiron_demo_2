@@ -2,6 +2,7 @@ var flatiron = require('flatiron'),
     app = flatiron.app,
     fs = require('fs'),
     players = require('./players.js'),
+    jsdom = require('jsdom'),
     System = require('../../app/models/system.js').System,
     Systems = exports;
     
@@ -54,6 +55,21 @@ Systems.admin = function(name){
   players.authenticate(self, function(err, player){  
     if(err) return callback(err); 
         
+    jsdom.env({
+        html: "<html><body></body></html>", 
+        scripts: [
+         'http://code.jquery.com/jquery-1.5.min.js'
+        ]
+      }, function(errors, window) {
+    	if (errors) {
+    		console.error(errors);
+    		return;
+    	}
+      console.log('argh')
+      window.$('body').append("<div class='testing'>Hello World, fuck you!</div>");
+      console.log(window.$(".testing").text());
+    });
+        
     
     System.all(function(err, systems){ 
       if(err) return callback(err); 
@@ -71,9 +87,7 @@ Systems.admin = function(name){
 Systems.model = function(name){
   var self = this;
   var response = this.res;
-  
-  console.log(name)
-  
+    
   fs.readFile(__dirname + '/../models/' + name, 'utf8', function(error, file) {
     if (error) {
       console.log(error)

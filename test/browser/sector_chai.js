@@ -10,6 +10,16 @@ describe('Sector', function(){
     Sector.systems.should.be.a('array');
   });
   
+  it('should render html', function(){
+    var data = {
+      template: 'test',
+      data: { foo: 'bar' }
+    };
+    console.log(Sector.render_html(data))
+    Sector.render_html(data).should.equal('');
+  });
+  
+  
 });
 
 describe('System', function(){

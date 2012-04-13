@@ -8,7 +8,7 @@
     "mongodb":"*",
     "resourceful-mongo":"0.0.3",
     "resourceful":"0.1.10",
-    "hogan.js":"1.0.5-dev",
+    "hogan.js":"2.0.0",
     "connect": "2.0.2",
     "async": "*",
     "sugar": "*",
