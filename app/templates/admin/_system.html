@@ -1,9 +1,9 @@
 <tr id="system_{{ _id }}">
-  <td class='name'>{{ name }}</td>
+  <td class='name'><a href="#">{{ name }}</a></td>
   <td class='star'>{{# stars }}{{ code }}{{ luminosity }}{{/ stars }}</td>
   <td class='planets'>
     {{# planets }}
-    <span class="badge badge-{{ klass_slug }}" data-id="{{ _id }}">{{ klass }}</span>
+    <span class="badge {{ klass_slug }}" data-id="{{ _id }}">{{ klass }}</span>
     {{/ planets }}
   </td>
 </tr>

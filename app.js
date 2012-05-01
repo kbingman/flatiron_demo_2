@@ -1,6 +1,7 @@
 var flatiron = require('flatiron'),
     sugar = require('sugar'),
-    session = require('connect').session,
+    ecstatic = require('ecstatic'),
+    session = require('connect').cookieSession,
     cookieParser = require('connect').cookieParser,  
     fs = require('fs'),
     path = require('path'),
@@ -23,7 +24,12 @@ app.use(flatiron.plugins.http);
 app.use(require('./plugins/hogan_templates'));
 
 app.http.before.push(cookieParser('todo list secret'));
-app.http.before.push(session());
+app.http.before.push(session({ 
+  cookie: { maxAge: 60 * 60 * 60 * 1000 }
+}));
+app.http.before.push(ecstatic(__dirname + '/public', { 
+  autoIndex: false 
+}));
 
 app.routes = {
   '/': { 
@@ -41,7 +47,8 @@ app.routes = {
     //   get: systems.model
     // },
     '/admin':{
-      get: systems.admin
+      get: systems.admin,
+      '/map': { get: systems.map }
     },
     '/api':{
       // get: players.test,
@@ -68,7 +75,6 @@ app.routes = {
 
 app.router.mount(app.routes);
 // app.router.configure({ recurse: 'forward' });
-app.router.get(/.+/, staticfiles);
 
 app.start(8080, function () {
   console.log('flatiron with http running on 8080');

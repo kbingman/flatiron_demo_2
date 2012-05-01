@@ -106,6 +106,8 @@ var System = resourceful.define('system', function () {
     });
   };
   
+  // Instance Methods
+  
   self.prototype.planets_collection = function(){
     var system = this;
     var planets = system.planets.map(function(p){ 
@@ -114,12 +116,15 @@ var System = resourceful.define('system', function () {
     return planets;
   };
   
-  // Instance Methods
   self.prototype.toJSON = function(){
     var system = this;
     return {
       '_id': system._id,
       'name': system.name,
+      'klass': system.stars.first().klass,
+      'slug': system.stars.first().klass.parameterize(),
+      'radius': Math.round(system.stars.first().radius * 12),
+      'ctime': system.ctime,
       'x': system.x,
       'y': system.y,
       'z': system.z,
@@ -131,74 +136,72 @@ var System = resourceful.define('system', function () {
   };
   
   
-  // ----------------------------------------------------------------
   // TODO Move this to a maintainable place
-  self.insert = function(documents, callback) {
-    var config = this.config;
-  
-    self._connection.collection(function(err, collection) {
-      collection.insert(documents, {safe: true}, callback);
-    });
-  };
   // ----------------------------------------------------------------
+  
+  // self.insert = function(documents, callback) {
+  //   var config = this.config;
+  // 
+  //   self._connection.collection(function(err, collection) {
+  //     collection.insert(documents, {safe: true}, callback);
+  //   });
+  // };
+  
   
 
+  // ----------------------------------------------------------------
+  self.prototype.cluster = function(callback){
+    
+    var instance = this;
+    
+    var star = instance.stars[0];
+    var mass = instance.mass;
+    var attraction_radius = mass * 72; 
+    
+    var x1 = instance.x - attraction_radius;
+    var x2 = instance.x + attraction_radius;
+    var y1 = instance.y - attraction_radius;
+    var y2 = instance.y + attraction_radius;
+    var conditions = { $and: [{'x':{ $gte: x1 }},  {'x':{ $lte: x2 }}, {'y':{ $gte: y1 }},  {'y':{ $lte: y2 }}, {'mass': { $lt: mass }}] };
+    // Needs to find nearby systems
+    // console.log('fuck')
+    self.find(conditions, function(err, systems){ 
+      if(err) callback.call(this, err, instance);
+      // console.log('you')
+      var clusterer = function(system, done){
+        var delta_x = instance.x - system.x;
+        var delta_y = instance.y - system.y;
+        var length = Math.sqrt(Math.pow(delta_x, 2) + Math.pow(delta_y, 2)); 
+        
+        // console.log("Delta X: " + delta_x)
+        // console.log("Delta Y: " + delta_y)
   
-// self.prototype.cluster = function(callback){
-//   
-//   var instance = this;
-//   
-//   var star = instance.stars[0];
-//   var mass = instance.mass;
-//   var attraction_radius = mass * 72; 
-//   
-//   var x1 = instance.x - attraction_radius;
-//   var x2 = instance.x + attraction_radius;
-//   var y1 = instance.y - attraction_radius;
-//   var y2 = instance.y + attraction_radius;
-//   var conditions = { $and: [{'x':{ $gte: x1 }},  {'x':{ $lte: x2 }}, {'y':{ $gte: y1 }},  {'y':{ $lte: y2 }}, {'mass': { $lt: mass }}] };
-//   // Needs to find nearby systems
-//   // console.log('fuck')
-//   self.find(conditions, function(err, systems){ 
-//     if(err) callback.call(this, err, instance);
-//     // console.log('you')
-//     var clusterer = function(system, done){
-//       var delta_x = instance.x - system.x;
-//       var delta_y = instance.y - system.y;
-//       var length = Math.sqrt(Math.pow(delta_x, 2) + Math.pow(delta_y, 2)); 
-//       
-//       // console.log("Delta X: " + delta_x)
-//       // console.log("Delta Y: " + delta_y)
-// 
-//       // This is more or less arbitrary and I just made it up
-//       // The equation, though, plots a point on the line between the two stars and
-//       // returns its coordinates
-//       var n = (Math.sqrt(length) * Math.sqrt(mass) * 1.3);
-//       var m = length - n;
-//       var x = ((m * instance.x) + (n * system.x))/(m + n);
-//       var y = ((m * instance.y) + (n * system.y))/(m + n);
-//         
-//       instance.x = Math.round(x);
-//       instance.y = Math.round(y);
-//       done();
-//     }
-//     
-//     if(systems && systems.length){
-//       async.forEach(systems, clusterer, function(err){
-//         // if(err) callback.call(this, err, instance);
-//         instance.clustered = true; 
-//         
-//         // console.log('cluster')
-//         callback.call(this, null, instance);
-//       });
-//     } else {
-//       instance.clustered = true; 
-//       callback.call(this, null, instance);
-//     }
-//   });    
-// 
-// } 
-  
+        // This is more or less arbitrary and I just made it up
+        // The equation, though, plots a point on the line between the two stars and
+        // returns its coordinates
+        var n = (Math.sqrt(length) * Math.sqrt(mass) * 1.3);
+        var m = length - n;
+        var x = ((m * instance.x) + (n * system.x))/(m + n);
+        var y = ((m * instance.y) + (n * system.y))/(m + n);
+          
+        instance.x = Math.round(x);
+        instance.y = Math.round(y);
+        done();
+      }
+      
+      if(systems && systems.length){
+        async.forEach(systems, clusterer, function(err){
+          // if(err) callback.call(this, err, instance);
+          instance.clustered = true; 
+          callback.call(this, null, instance);
+        });
+      } else {
+        instance.clustered = true; 
+        callback.call(this, null, instance);
+      }
+    });    
+  } 
+  // ---------------------------------------------------------------- 
   
 });
 

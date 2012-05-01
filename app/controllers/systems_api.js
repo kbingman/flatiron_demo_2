@@ -10,11 +10,17 @@ var fs = require('fs'),
 var Api = {
   
   index: function(){
-    var self = this;
-    players.authenticate(self, function(err, player){ 
-      console.log(System.protocol)
-      System.all(function(error, systems){
-        self.res.json(systems.map(function(p){ return p.toJSON(); }));
+    var app = this;
+    var query = app.req.query
+    var criteria = {};
+    
+    Object.extended(query).each(function(a){
+      criteria['planets.' + a] = query[a]
+    });
+
+    players.authenticate(app, function(err, player){ 
+      System.find(criteria, function(error, systems){
+        app.res.json(systems.map(function(p){ return p.toJSON(); }));
       });
     });
   },
@@ -23,7 +29,6 @@ var Api = {
     var self = this;
     players.authenticate(self, function(err, player){ 
       System.get(id, function(error, system){
-        
         if(system){
           self.res.json(system.toJSON());  
         } else {
@@ -55,8 +60,6 @@ var Api = {
           });
         },
         function (error) {
-          console.log('finished');
-          console.log('Systems: ' + systems.length);
           if(error){
             self.res.json({ error: err });
           } else {

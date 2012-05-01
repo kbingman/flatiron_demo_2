@@ -8,7 +8,8 @@
     "mongodb":"*",
     "resourceful-mongo":"0.0.3",
     "resourceful":"0.1.10",
-    "hogan.js":"2.0.0",
+    "revalidator":"*",
+    "hogan.js":"1.0.5-dev",
     "connect": "2.0.2",
     "async": "*",
     "sugar": "*",
@@ -17,8 +18,8 @@
   "devDependencies": {
     "api-easy": "0.3.2",
     "mocha": "*",
-    "expect": "*",
     "should": "0.6.0",
+    "chai": "*",
     "sinon":"*",
     "zombie":"0.12.15"
   },

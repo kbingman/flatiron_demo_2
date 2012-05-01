@@ -2,8 +2,6 @@ var Sector = {
   
   View: {},
   
-  systems: [],
-  
   // Syncs a resourceful collection to the server with jQuery ajax
   sync: function(model, options){
     var ajax_options = {
@@ -11,12 +9,9 @@ var Sector = {
       data: options.data,
       type: options.type,
       success: function(response){
-        response.each(function(data){
-          var instance = new model(data),
-              collection = instance.resource.toLowerCase().pluralize();
-          
+        response.forEach(function(data){
+          var instance = new model(data);
           instance.save();
-          Sector[collection].push(instance);
         });
         
         if(options.success) options.success.call(this, response);
@@ -36,6 +31,9 @@ var Sector = {
         method = options.method || 'append';
 
     $(options.target)[method](html);
+    if(options.success){
+      options.success();
+    }
   },
   
   render_html: function(options){

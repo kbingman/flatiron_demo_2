@@ -29,7 +29,7 @@ var Planet = resourceful.define('planet', function () {
   
   // Errors
   self.on('error', function() {
-    console.log(arguments)
+    // console.log(arguments)
   });
   
   // Before Create 
@@ -47,7 +47,7 @@ var Planet = resourceful.define('planet', function () {
             
       if(instance.klass == klass.name || (probability > start && probability < frequency)) {
         instance.klass      = klass.name;
-        instance.radius     = self.types[klass.name].radius * ((Math.random() * .8) + .6);
+        instance.radius     = self.round_radius(self.types[klass.name].radius * ((Math.random() * .8) + .6));
         instance.atmosphere = self.types[klass.name].atmosphere;
         
         return false;
@@ -69,13 +69,6 @@ var Planet = resourceful.define('planet', function () {
     return planet.klass.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
   };
   
-  self.prototype.rounded_radius = function(){
-    var planet = this;
-    return Math.round(planet.radius * 100) / 100;
-  };
-  
-  
-  
   // Instance Methods
   self.prototype.toJSON = function(){
     var planet = this;
@@ -83,11 +76,15 @@ var Planet = resourceful.define('planet', function () {
       '_id': planet._id,
       'name': planet.name,
       'klass': planet.klass,
-      'radius': planet.rounded_radius(),
+      'radius': planet.radius,
+      'position': planet.position,
       'klass_slug': planet.klass_slug()
     }
   };
-  
+  self.round_radius = function(radius, places){
+    var places = 3 || places;
+    return Math.round(radius * Math.pow(10, places)) / Math.pow(10, places);
+  }
   
   self.types = { 
     'cerian': { radius: 0.5, atmosphere: 'none', moons: 0 },

@@ -6,8 +6,12 @@ describe('Sector', function(){
     Sector.should.be.a('object');
   });
   
-  it('should be have a systems array', function(){
+  it('should have a systems array', function(){
     Sector.systems.should.be.a('array');
+  });
+  
+  it('should find the template', function(){
+    Templates['test'].render({ foo: 'bar' }).should.equal('<h1>bar</h1>');
   });
   
   it('should render html', function(){
@@ -15,10 +19,8 @@ describe('Sector', function(){
       template: 'test',
       data: { foo: 'bar' }
     };
-    console.log(Sector.render_html(data))
-    Sector.render_html(data).should.equal('');
+    Sector.render_html(data).should.equal('<h1>bar</h1>');
   });
-  
   
 });
 
@@ -46,8 +48,9 @@ describe('Planet', function(){
   });  
   
   // it('should be an instance of Planet', function(){
-  //   var planet = new Sector.Planet();
-  //   planet.should.be.an.instanceOf(Sector.Planet)
-  // })
+  //   Sector.Planet.create(function(error, planet){
+  //     planet.should.be.an.instanceOf(Sector.Planet)
+  //   });
+  // });
   
 });

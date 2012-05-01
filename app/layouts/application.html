@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" media="screen"  href="/css/index.css" />
     <title>It's Full of Stars!</title>
     <!-- Web App, hides Safari Chrome -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -10,35 +9,46 @@
     <!--  Home page icon -->
     <!--  link rel="apple-touch-icon-precomposed" href="/assets/icon.png"  -->
     
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/js/vendor/jquery.1.7.min.js"></script> 
-    <script type="text/javascript" src="/js/vendor/sugar-1.2.2.min.js"></script> 
-    <script type="text/javascript" src="/js/vendor/resourceful-0.1.5.js"></script>
-    <script type="text/javascript" src="/js/vendor/template-1.0.5.min.js"></script> 
-    <script type="text/javascript" src="/js/vendor/raphael.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen"  href="/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" media="screen"  href="/css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" media="screen"  href="/css/admin.css" />
     
-    <script type="text/javascript" src="/js/sector.js"></script> 
+    <!--script src="/socket.io/socket.io.js"></script-->
+    <script type="text/javascript" src="/js/vendor/jquery.1.7.min.js"></script> 
+    <script type="text/javascript" src="/js/vendor/bootstrap.js"></script> 
+    <script type="text/javascript" src="/js/vendor/raphael.js"></script> 
+    <script type="text/javascript" src="/js/vendor/sugar-1.2.4-custom.min.js"></script> 
+    <script type="text/javascript" src="/js/vendor/resourceful-0.1.5.js"></script>
+    <script type="text/javascript" src="/js/vendor/template-2.0.0.js"></script> 
+    
+    <script type="text/javascript" src="/js/rendering/grid.js"></script> 
+    
+    <script type="text/javascript" src="/js/lib/sector.js"></script> 
+    <script type="text/javascript" src="/js/lib/sector_views.js"></script> 
+    
     <script type="text/javascript" src="/js/models/system.js"></script> 
     <script type="text/javascript" src="/js/models/planet.js"></script> 
     <script type="text/javascript" src="/js/models/player.js"></script> 
     
-    <script type="text/javascript" src="/js/render_system.js"></script> 
-    <script type="text/javascript" src="/js/starfield.js"></script> 
-    <script type="text/javascript" src="/js/grid.js"></script> 
-    
     <script type="text/javascript" src="/js/templates.js"></script> 
-    <script type="text/javascript" src="/js/index.js"></script>  
+    <script type="text/javascript" src="/js/admin.js"></script>  
     <script>
 
     </script>
     
   </head>
   
-  <body class="starfield">   
-    
-    <div id="content">
+  <body class="admin">   
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">It's Full of Stars!</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" id="content">
       {{{ content }}}
     </div>
-    
+    <div id="modal"></div>
   </body>
 </html>

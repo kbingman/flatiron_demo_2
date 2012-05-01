@@ -2,10 +2,6 @@ var resourceful = require('resourceful-mongo'),
     sugar = require('sugar'),
     System = require('./system').System;;
 
-// In a real app, this would need a persistence layer, 
-// that is a database like MongoDB or CouchDB. 
-// Right now, we just store the models in Memory for educational purposes.
-
 var Player = resourceful.define('player', function () {
 
   var self = this;

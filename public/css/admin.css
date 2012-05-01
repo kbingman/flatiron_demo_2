@@ -21,46 +21,72 @@ table {}
 .modal-backdrop {
   background-color: white;
 }
+.modal {
+  width: auto;
+  min-width: 560px;
+  max-width: 960px;
+}
 
 
-/*--------------- Planet Badges ---------------*/
-.badge-cerian {
+/*--------------- Planets ---------------*/
+.cerian {
   background-color: #b94a48;
 }
-.badge-cerian:hover {
+.cerian:hover {
   background-color: #953b39;
 }
-.badge-planetoids {
+.planetoids {
   background-color: #f89406;
 }
-.badge-planetoids:hover {
+.planetoids:hover {
   background-color: #c67605;
 }
-.badge-gas-giant {
+.gas-giant {
   background-color: #468847;
 }
-.badge-gas-giant:hover {
+.gas-giant:hover {
   background-color: #356635;
 }
-.badge-terran {
+.terran {
   background-color: #3a87ad;
 }
-.badge-terran:hover {
+.terran:hover {
   background-color: #2d6987;
 }
-.badge-arean {
+.arean {
   background-color: #333333;
 }
-.badge-arean:hover {
+.arean:hover {
   background-color: #1a1a1a;
 }
+.arid {
+  background-color: #333333;
+}
+.arid:hover {
+  background-color: #1a1a1a;
+}
+
+.tundra {
+  background-color: #1a1a1a;
+}
+.desert {
+  background-color: #1a1a1a;
+}
+
+.ice-giant {
+  background-color: #333333;
+}
+.ice-giant:hover {
+  background-color: #1a1a1a;
+}
+
+
 
 /*--------------- Planet Styles ---------------*/
 .planetary_disc {
   display: block;
   float: left;
-  background: #3a87ad;
-  border-radius: 50px;
+  border-radius: 50%;
   height: 100px;
   width: 100px;
   margin: 0 24px 0 0;
@@ -70,3 +96,70 @@ table {}
   font-weight: bold;
   color: white;
 }
+.planet_info {
+  position: relative;
+  float: left;
+  margin: 0 24px 0 0;
+  height: 85px;
+}
+.planet_info span {
+  display: block;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+.orbits { 
+  height: 0;
+  padding: 72px 0;
+}
+
+
+#map { 
+  position: fixed; 
+  top: 40px; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: #000; 
+  overflow: visible;
+}
+#map .system { 
+  position: absolute; 
+  height: 48px; 
+  width: 48px; 
+  background-image: url(/img/system.png); 
+  background-position: center center;
+  background-repeat: no-repeat; 
+  z-index: 1;
+} 
+
+#map a { 
+  display: block;
+  position: absolute; 
+  margin: 16px;
+  height: 16px; 
+  width: 16px; 
+  cursor: pointer; 
+  background-image: url(/img/shim.png); 
+  z-index: 10;
+} 
+
+
+#map .departure {  
+  border: 2px solid blue;
+} 
+
+#map .red { background-image: url(/img/red.png);  } 
+#map .orange { background-image: url(/img/orange.png); } 
+#map .yellow { background-image: url(/img/yellow.png); } 
+#map .yellow-white { background-image: url(/img/yellow-white.png); }
+#map .white { background-image: url(/img/white.png); }
+#map .blue-white { background-image: url(/img/blue.png); }*/
+#map .blue { background-image: url(/img/blue.png); }
+#map .degenerate { background-image: url(/img/system.png); }
+ 
