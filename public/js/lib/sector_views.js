@@ -1,7 +1,7 @@
 // Show System
 Sector.View.show_system_data = function(system_id){
         
-  Sector.System.get(system_id, function(error, system){       
+  System.get(system_id, function(error, system){       
     Sector.View.modal({
       template: 'admin/_system_modal',
       data: {
@@ -26,7 +26,7 @@ Sector.View.show_planet_data = function(){
     var planet_id = $(this).data('id'),
         system_id = $(this).parents('tr:first').attr('id').split('_').last();
         
-    Sector.System.get(system_id, function(error, system){ 
+    System.get(system_id, function(error, system){ 
       planet = system.planets.find(function(p){
         return p._id == planet_id;
       });
@@ -44,11 +44,13 @@ Sector.View.show_planet_data = function(){
 };
 
 Sector.View.systems_map = function(scale, callback){
-  Sector.System.all(function(err, systems){
+  System.all(function(err, systems){
     var data = {
       systems: systems.map(function(s){ 
         return {
-          slug : s.slug,
+          slug : s.klass.parameterize(),
+          klass: s.klass,
+          planet_count: s.planets.length,
           _id  : s._id,
           x    : s.x * scale - 24,
           y    : s.y * scale - 24

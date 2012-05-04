@@ -1,5 +1,14 @@
-<div id="map">
+{{# player }}
+<script type="text/javascript">
+  Sector.id = "{{ _id }}"
+  Sector.homeworld_id = "{{ homeworld_id }}"
+</script> 
+{{/ player }}
 
+<div id="sector">
+  <div id="map">
+
+  </div>
 </div>
 
 <div id="system">
@@ -7,8 +16,6 @@
 </div>
 
 <div id="info">
-
-  {{> players/show }}
   <label>
     Scale
   </label>

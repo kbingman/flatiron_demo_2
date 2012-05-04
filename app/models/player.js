@@ -1,6 +1,7 @@
 var resourceful = require('resourceful-mongo'),
     sugar = require('sugar'),
-    System = require('./system').System;;
+    Ship = require('./ship').Ship;
+    System = require('./system').System;
 
 var Player = resourceful.define('player', function () {
 
@@ -16,6 +17,7 @@ var Player = resourceful.define('player', function () {
   self.property('slug', String);
   self.property('homeworld_id', String);
   self.property('systems', Array);
+  self.property('ships', Array);
   self.property('bank_account', Number);
   
   self.prototype.toJSON = function(){
@@ -25,13 +27,15 @@ var Player = resourceful.define('player', function () {
       'name': player.name,
       'email': player.email,
       'bank_account': player.bank_account,
-      'homeworld_id': player.homeworld_id
+      'homeworld_id': player.homeworld_id,
+      'ships': player.ships
     }
   };
   
   // Before Create 
   self.before('create', function(player, callback) {
     player.bank_account = 1000000000;
+    player.ships = [];
     player.slug = player.name.toLowerCase().replace(/ /g, '-');
 
     System.find({'planets.klass':/terran/i}, function(err, systems){ 
@@ -40,9 +44,30 @@ var Player = resourceful.define('player', function () {
 
       player.homeworld_id = system._id.toString();
       system.player_id = player._id;
-      callback();
+      
+      self.build_ship(player, callback);
     });
   });
+  
+  // Builds 
+  self.build_ship = function(player, callback){
+    var ship = new Ship({ player_id: player.id });
+    ship.save(function(err, ship){
+      player.ships.push(ship.toJSON());
+      callback();
+    });
+  }
+  
+  self.prototype.homeworld = function(callback){
+    var id = this.homeworld_id; 
+    System.get(id, function(err, homeworld){
+      if(err){
+        callback(err);
+        return;
+      }
+      callback(null, homeworld);
+    });
+  };
    
 });
 

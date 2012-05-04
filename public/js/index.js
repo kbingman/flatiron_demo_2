@@ -6,9 +6,9 @@ $(function() {
   }
   
   if(Sector.current_player){
-    Sector.System.fetch(function(){
+    System.fetch(function(){
       var id = Sector.current_player.homeworld_id,
-          homeworld = Sector.systems.find(function(s){ return s._id == id }),
+          homeworld = Systems.find(function(s){ return s._id == id }),
           width = $(document).width() - 300,
           height = $(document).height(),
           x_offset = homeworld ? homeworld.x - (width / 2) : 0,
@@ -80,9 +80,9 @@ $(function() {
         console.log(response)
         // var system_template = new Hogan.Template(Templates['systems/system']),
         //     html = system_template.render(response),
-        //     system = new Sector.System(response);
+        //     system = new System(response);
         // 
-        // Sector.systems.push(system);
+        // Systems.push(system);
         // form.find('input[type="text"]').val('');
         // $(target).append(html);
       }
@@ -110,7 +110,7 @@ $(function() {
     e.preventDefault();
     
     var id = $(this).attr('href').split('/').last(),
-        system = Sector.systems.find(function(s){ return s._id == id }),
+        system = Systems.find(function(s){ return s._id == id }),
         data = { system: system };
         
     // history.pushState({ path: $(this).attr('href') }, "Planet", "/systems/" + system._id);

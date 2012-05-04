@@ -10,18 +10,24 @@ Systems.index = function(name){
   
   players.authenticate(self, function(err, player){  
     if(err) return callback(err); 
+    var data = {
+      player: player.toJSON()
+    };
         
+    app.render('systems/index', data, function(template){
+      app.render_layout(self, template);
+    }); 
     
-    System.all(function(err, systems){ 
-      if(err) return callback(err); 
-      var data = {
-            systems: systems.map(function(s){ return s.toJSON(); }),
-            player: player.toJSON()
-          };
-      app.render('systems/index', data, function(template){
-        app.render_layout(self, template);
-      }); 
-    });
+    // System.all(function(err, systems){ 
+    //   if(err) return callback(err); 
+    //   var data = {
+    //         systems: systems.map(function(s){ return s.toJSON(); }),
+    //         player: player.toJSON()
+    //       };
+    //   app.render('systems/index', data, function(template){
+    //     app.render_layout(self, template);
+    //   }); 
+    // });
   });
 };
   

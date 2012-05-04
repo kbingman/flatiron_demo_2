@@ -18,14 +18,14 @@ function Starfield(domID, options){
     self.x = options['x'] ? options['x'] : 0;
     self.y = options['y'] ? options['y'] : 0;
     self.baseSize = 3.5;
-    self.plot_stars(Sector.systems); 
+    self.plot_stars(Systems); 
   };
   
   self.resize = function(scale){
     self.scale = scale;
     self.paper.clear();
     Sector.grid = new Grid('paper', $(document).width(), $(document).height(), scale);
-    self.plot_stars(Sector.systems);
+    self.plot_stars(Systems);
   };
   
   self.plot_stars = function(systems){
@@ -108,7 +108,7 @@ function Starfield(domID, options){
     
     sector.unbind('click');
     
-    Sector.system_portrait = Sector.render_system({ system: system });
+    System_portrait = Sector.render_system({ system: system });
     system_node.fadeIn('fast', function(){
       setTimeout(function(){
         sector.bind('click', function(){

@@ -1,4 +1,4 @@
-Sector.System = resourceful.define('system', function () {
+System = resourceful.define('system', function () {
   
   var self = this; 
   

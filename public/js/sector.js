@@ -1,7 +1,7 @@
 // Main JS Object / Namespace
 var Sector = {};
         
-Sector.systems = [];
+Systems = [];
 
 Sector.render = function(options){
   console.log(options)
@@ -15,9 +15,9 @@ Sector.render_planet = function(data){
    
   $('#system-info').html(html);
      
-  Sector.system_renderer.paper.clear();
-  Sector.system_renderer.draw_background();
-  Sector.system_renderer.draw_planet_details(data.planet);
+  System_renderer.paper.clear();
+  System_renderer.draw_background();
+  System_renderer.draw_planet_details(data.planet);
 };
 
 Sector.render_system = function(data){
@@ -30,8 +30,8 @@ Sector.render_system = function(data){
   $('#system-info').html(html);
   Sector.current_system = data.system;
       
-  if(Sector.system_renderer){
-    Sector.system_renderer.paper.remove();
+  if(System_renderer){
+    System_renderer.paper.remove();
   }
-  Sector.system_renderer = new SystemRenderer('system', data.system, width, height);
+  System_renderer = new SystemRenderer('system', data.system, width, height);
 };

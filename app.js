@@ -89,14 +89,13 @@ io.sockets.on('connection', function(socket) {
   socket.on('set player', function (data) {
     Player.get(data.player_id, function(error, player){
       console.log('Player: ' + player);
-      socket.set('player', player, function () { socket.emit('ready'); });
+      socket.set('player', player, function () { socket.emit('player', { player: player.toJSON() }); });
     });
   });
 
   socket.on('get player', function () {
     socket.get('player', function (err, player) {
       socket.emit('player', { player: player.toJSON() });
-      console.log(player);
     });
   });
 });

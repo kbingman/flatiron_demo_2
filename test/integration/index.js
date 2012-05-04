@@ -31,7 +31,6 @@ describe('Login', function(){
 });
 
 describe('Admin', function(){
-  console.log(baseUrl + 'admin')
 
   it('should log a user in', function(done){
     browser.visit(baseUrl + 'admin', function () {

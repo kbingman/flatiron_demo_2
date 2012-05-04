@@ -119,14 +119,16 @@ table {}
 }
 
 
-#map { 
+#sector, #map { 
   position: fixed; 
   top: 40px; 
   left: 0; 
   right: 0; 
   bottom: 0; 
-  background: #000; 
   overflow: visible;
+}
+#sector {
+  background: #000; 
 }
 #map .system { 
   position: absolute; 

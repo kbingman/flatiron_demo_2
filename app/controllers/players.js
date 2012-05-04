@@ -10,22 +10,21 @@ Players.new = function(name){
     app.render_layout(self, template);
   });
 };
-
-// Players.test = function(next){
-//   var self = this;
-//   
-//   Players.authenticate(self, function(err, player){ 
-//     console.log('test');
-//     next();
-//   });
-// 
-// };
   
 Players.authenticate = function(app, callback){
+  console.log('player_id')
   var player_id = app.req.session.player_id;
+  console.log(player_id)
   
   Player.get(player_id, function(error, player){
-    // if(error) return callback(error);
+    console.log('error')
+    console.log(player)
+    if(error){
+      console.log(error)
+      app.res.writeHead(302, { 'Location': '/signup' });
+      app.res.end();
+      return; 
+    }
     if(player){
       callback(null, player);
     } else {

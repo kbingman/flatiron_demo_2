@@ -106,7 +106,7 @@ describe('Planet', function(){
     it('should return the correct radius in the json', function(done){
       Planet.find({ name: 'alderon' }, function(err, planets){
         var planet = planets.first();
-        console.log(planet.toJSON().radius)
+
         planet.toJSON().radius.should.be.within(0.6, 1.4);
         done();
       });
